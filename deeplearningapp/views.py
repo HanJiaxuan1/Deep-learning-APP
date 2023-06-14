@@ -17,3 +17,6 @@ def login(request):
 def use(request):
     return render(request, 'useModel.html')
 
+
+def about(request):
+    return render(request, 'about.html')
