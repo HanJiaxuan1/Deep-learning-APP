@@ -2,17 +2,41 @@
 
 {% block body %}
     <!-- main-area -->
+    <!-- CSS -->
+    <style>
+        .custom-file-upload {
+            display: inline-block;
+        }
+
+        .file-input {
+            display: none; /* 隐藏原生的文件上传输入框 */
+        }
+
+        .file-upload-button {
+            padding: 10px 20px;
+            background-color: #3939c4;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
 
     <main class="main-content fix">
-        <section class="pt-150 pb-100">
+        <section class="mt-150">
             <div class="container custom-container">
                 <div class="row" style="display: flex; justify-content: center;">
                     <div class="col-lg-3 col-md-4">
                         <!-- Profile Image -->
                         <div class="profile-image mx-auto">
                             <img src="/static/img/cat.jpg" alt="Profile Image" class="img-fluid rounded-circle">
-                            <div style="display: flex; justify-content: center">
-                            <input  type="file" id="avatar" name="avatar" accept="image/png, image/jpeg" class="mt-3">
+                            <!-- upload pic -->
+                            <div class="custom-file-upload mt-3" style="display: flex; justify-content: center">
+                                <input type="file" id="avatar" name="avatar" accept="image/png, image/jpeg"
+                                       class="file-input"/>
+                                <button type="button" class="file-upload-button"
+                                        onclick="document.getElementById('avatar').click()">Upload Image
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -20,17 +44,17 @@
                         <!-- Profile Form -->
                         <form action="/update-profile" method="post" class="mt-3">
                             <div class="form-group">
-                                <label for="name">名字:</label>
+                                <label for="name">Name:</label>
                                 <input type="text" id="name" name="name" class="form-control">
                             </div>
 
                             <div class="form-group">
-                                <label for="email">邮箱:</label>
+                                <label for="email">Email:</label>
                                 <input type="email" id="email" name="email" class="form-control">
                             </div>
 
                             <div class="form-group">
-                                <label for="password">密码:</label>
+                                <label for="password">Password:</label>
                                 <input type="password" id="password" name="password" class="form-control">
                             </div>
                             <br>
@@ -42,6 +66,639 @@
                 </div>
             </div>
         </section>
+
+        <div class="container mt-30">
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" id="likes-tab" data-toggle="tab" href="#likes" role="tab"
+                       aria-controls="likes" aria-selected="true">Liked Model</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="uploads-tab" data-toggle="tab" href="#uploads" role="tab"
+                       aria-controls="uploads" aria-selected="false">Upload Model</a>
+                </li>
+            </ul>
+
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div class="tab-pane active" id="likes" role="tabpanel" aria-labelledby="likes-tab">
+                    <section class="blog-area pb-150">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="blog-tav-wrap mt-5">
+                                        <div class="tab-content" id="myTabContent">
+                                            <div class="tab-pane fade show active" id="text-classification-tab-pane"
+                                                 role="tabpanel" aria-labelledby="text-classification-tab" tabindex="0">
+                                                <div class="blog-item-wrap">
+                                                    <div class="row justify-content-center">
+                                                        <div class="col-lg-4 col-md-6 col-sm-10">
+                                                            <div class="blog-grid-item">
+                                                                <div class="blog-grid-thumb">
+                                                                    <a href="blog-details.html"><img
+                                                                            src="/static/img/blog/blog_img02.jpg"
+                                                                            alt=""></a>
+                                                                </div>
+                                                                <div class="blog-grid-content">
+                                                                    <span class="date">June 19, 2023</span>
+                                                                    <h2 class="title"><a href="blog-details.html">Model
+                                                                        1</a></h2>
+                                                                    <p>Model 1 is generally used to classify email.</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-4 col-md-6 col-sm-10">
+                                                            <div class="blog-grid-item">
+                                                                <div class="blog-grid-thumb">
+                                                                    <a href="blog-details.html"><img
+                                                                            src="/static/img/blog/blog_img03.jpg"
+                                                                            alt=""></a>
+                                                                </div>
+                                                                <div class="blog-grid-content">
+                                                                    <span class="date">January 25, 2023</span>
+                                                                    <h2 class="title"><a href="blog-details.html">Model
+                                                                        2</a></h2>
+                                                                    <p>Model 2 is generally used to analyze emotion.</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-4 col-md-6 col-sm-10">
+                                                            <div class="blog-grid-item">
+                                                                <div class="blog-grid-thumb">
+                                                                    <a href="blog-details.html"><img
+                                                                            src="/static/img/blog/blog_img04.jpg"
+                                                                            alt=""></a>
+                                                                </div>
+                                                                <div class="blog-grid-content">
+                                                                    <span class="date">June 17, 2022</span>
+                                                                    <h2 class="title"><a href="blog-details.html">Model
+                                                                        3</a></h2>
+                                                                    <p>Model 3 is generally used to classify news.</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-4 col-md-6 col-sm-10">
+                                                            <div class="blog-grid-item">
+                                                                <div class="blog-grid-thumb">
+                                                                    <a href="blog-details.html"><img
+                                                                            src="/static/img/blog/blog_img05.jpg"
+                                                                            alt=""></a>
+                                                                </div>
+                                                                <div class="blog-grid-content">
+                                                                    <span class="date">August 31, 2023</span>
+                                                                    <h2 class="title"><a href="blog-details.html">Model
+                                                                        4</a></h2>
+                                                                    <p>Model 4 is generally used to...</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-4 col-md-6 col-sm-10">
+                                                            <div class="blog-grid-item">
+                                                                <div class="blog-grid-thumb">
+                                                                    <a href="blog-details.html"><img
+                                                                            src="/static/img/blog/blog_img06.jpg"
+                                                                            alt=""></a>
+                                                                </div>
+                                                                <div class="blog-grid-content">
+                                                                    <span class="date">June 2, 2020</span>
+                                                                    <h2 class="title"><a href="blog-details.html">Model
+                                                                        5</a></h2>
+                                                                    <p>Model 5 is generally used to...</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-4 col-md-6 col-sm-10">
+                                                            <div class="blog-grid-item">
+                                                                <div class="blog-grid-thumb">
+                                                                    <a href="blog-details.html"><img
+                                                                            src="/static/img/blog/blog_img07.jpg"
+                                                                            alt=""></a>
+                                                                </div>
+                                                                <div class="blog-grid-content">
+                                                                    <span class="date">June 5, 2019</span>
+                                                                    <h2 class="title"><a href="blog-details.html">Model
+                                                                        6</a></h2>
+                                                                    <p>Model 6 is generally used to...</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="tab-pane fade" id="translator-tab-pane" role="tabpanel"
+                                                 aria-labelledby="translator-tab" tabindex="0">
+                                                <div class="blog-item-wrap">
+                                                    <div class="row justify-content-center">
+                                                        <div class="col-lg-4 col-md-6 col-sm-10">
+                                                            <div class="blog-grid-item">
+                                                                <div class="blog-grid-thumb">
+                                                                    <a href="blog-details.html"><img
+                                                                            src="/static/img/blog/blog_img02.jpg"
+                                                                            alt=""></a>
+                                                                </div>
+                                                                <div class="blog-grid-content">
+                                                                    <span class="date">June 19, 2023</span>
+                                                                    <h2 class="title"><a href="blog-details.html">Model
+                                                                        7</a></h2>
+                                                                    <p>Model 7 is generally used to classify email.</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-4 col-md-6 col-sm-10">
+                                                            <div class="blog-grid-item">
+                                                                <div class="blog-grid-thumb">
+                                                                    <a href="blog-details.html"><img
+                                                                            src="/static/img/blog/blog_img03.jpg"
+                                                                            alt=""></a>
+                                                                </div>
+                                                                <div class="blog-grid-content">
+                                                                    <span class="date">January 25, 2023</span>
+                                                                    <h2 class="title"><a href="blog-details.html">Model
+                                                                        2</a></h2>
+                                                                    <p>Model 2 is generally used to analyze emotion.</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-4 col-md-6 col-sm-10">
+                                                            <div class="blog-grid-item">
+                                                                <div class="blog-grid-thumb">
+                                                                    <a href="blog-details.html"><img
+                                                                            src="/static/img/blog/blog_img04.jpg"
+                                                                            alt=""></a>
+                                                                </div>
+                                                                <div class="blog-grid-content">
+                                                                    <span class="date">June 17, 2022</span>
+                                                                    <h2 class="title"><a href="blog-details.html">Model
+                                                                        3</a></h2>
+                                                                    <p>Model 3 is generally used to classify news.</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-4 col-md-6 col-sm-10">
+                                                            <div class="blog-grid-item">
+                                                                <div class="blog-grid-thumb">
+                                                                    <a href="blog-details.html"><img
+                                                                            src="/static/img/blog/blog_img05.jpg"
+                                                                            alt=""></a>
+                                                                </div>
+                                                                <div class="blog-grid-content">
+                                                                    <span class="date">August 31, 2023</span>
+                                                                    <h2 class="title"><a href="blog-details.html">Model
+                                                                        4</a></h2>
+                                                                    <p>Model 4 is generally used to...</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-4 col-md-6 col-sm-10">
+                                                            <div class="blog-grid-item">
+                                                                <div class="blog-grid-thumb">
+                                                                    <a href="blog-details.html"><img
+                                                                            src="/static/img/blog/blog_img06.jpg"
+                                                                            alt=""></a>
+                                                                </div>
+                                                                <div class="blog-grid-content">
+                                                                    <span class="date">June 2, 2020</span>
+                                                                    <h2 class="title"><a href="blog-details.html">Model
+                                                                        5</a></h2>
+                                                                    <p>Model 5 is generally used to...</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-4 col-md-6 col-sm-10">
+                                                            <div class="blog-grid-item">
+                                                                <div class="blog-grid-thumb">
+                                                                    <a href="blog-details.html"><img
+                                                                            src="/static/img/blog/blog_img07.jpg"
+                                                                            alt=""></a>
+                                                                </div>
+                                                                <div class="blog-grid-content">
+                                                                    <span class="date">June 5, 2019</span>
+                                                                    <h2 class="title"><a href="blog-details.html">Model
+                                                                        6</a></h2>
+                                                                    <p>Model 6 is generally used to...</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="tab-pane fade" id="text-generation-tab-pane" role="tabpanel"
+                                                 aria-labelledby="text-generation-tab" tabindex="0">
+                                                <div class="blog-item-wrap">
+                                                    <div class="row justify-content-center">
+                                                        <div class="col-lg-4 col-md-6 col-sm-10">
+                                                            <div class="blog-grid-item">
+                                                                <div class="blog-grid-thumb">
+                                                                    <a href="blog-details.html"><img
+                                                                            src="/static/img/blog/blog_img02.jpg"
+                                                                            alt=""></a>
+                                                                </div>
+                                                                <div class="blog-grid-content">
+                                                                    <span class="date">June 19, 2023</span>
+                                                                    <h2 class="title"><a href="blog-details.html">Model
+                                                                        20</a></h2>
+                                                                    <p>Model 20 is generally used to classify email.</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-4 col-md-6 col-sm-10">
+                                                            <div class="blog-grid-item">
+                                                                <div class="blog-grid-thumb">
+                                                                    <a href="blog-details.html"><img
+                                                                            src="/static/img/blog/blog_img03.jpg"
+                                                                            alt=""></a>
+                                                                </div>
+                                                                <div class="blog-grid-content">
+                                                                    <span class="date">January 25, 2023</span>
+                                                                    <h2 class="title"><a href="blog-details.html">Model
+                                                                        2</a></h2>
+                                                                    <p>Model 2 is generally used to analyze emotion.</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-4 col-md-6 col-sm-10">
+                                                            <div class="blog-grid-item">
+                                                                <div class="blog-grid-thumb">
+                                                                    <a href="blog-details.html"><img
+                                                                            src="/static/img/blog/blog_img04.jpg"
+                                                                            alt=""></a>
+                                                                </div>
+                                                                <div class="blog-grid-content">
+                                                                    <span class="date">June 17, 2022</span>
+                                                                    <h2 class="title"><a href="blog-details.html">Model
+                                                                        3</a></h2>
+                                                                    <p>Model 3 is generally used to classify news.</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-4 col-md-6 col-sm-10">
+                                                            <div class="blog-grid-item">
+                                                                <div class="blog-grid-thumb">
+                                                                    <a href="blog-details.html"><img
+                                                                            src="/static/img/blog/blog_img05.jpg"
+                                                                            alt=""></a>
+                                                                </div>
+                                                                <div class="blog-grid-content">
+                                                                    <span class="date">August 31, 2023</span>
+                                                                    <h2 class="title"><a href="blog-details.html">Model
+                                                                        4</a></h2>
+                                                                    <p>Model 4 is generally used to...</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-4 col-md-6 col-sm-10">
+                                                            <div class="blog-grid-item">
+                                                                <div class="blog-grid-thumb">
+                                                                    <a href="blog-details.html"><img
+                                                                            src="/static/img/blog/blog_img06.jpg"
+                                                                            alt=""></a>
+                                                                </div>
+                                                                <div class="blog-grid-content">
+                                                                    <span class="date">June 2, 2020</span>
+                                                                    <h2 class="title"><a href="blog-details.html">Model
+                                                                        5</a></h2>
+                                                                    <p>Model 5 is generally used to...</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-4 col-md-6 col-sm-10">
+                                                            <div class="blog-grid-item">
+                                                                <div class="blog-grid-thumb">
+                                                                    <a href="blog-details.html"><img
+                                                                            src="/static/img/blog/blog_img07.jpg"
+                                                                            alt=""></a>
+                                                                </div>
+                                                                <div class="blog-grid-content">
+                                                                    <span class="date">June 5, 2019</span>
+                                                                    <h2 class="title"><a href="blog-details.html">Model
+                                                                        6</a></h2>
+                                                                    <p>Model 6 is generally used to...</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+                <div class="tab-pane" id="uploads" role="tabpanel" aria-labelledby="uploads-tab">
+                    <section class="blog-area pb-150">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="blog-tav-wrap mt-5">
+                                        <div class="tab-content" id="myTabContent">
+                                            <div class="tab-pane fade show active" id="text-classification-tab-pane"
+                                                 role="tabpanel" aria-labelledby="text-classification-tab" tabindex="0">
+                                                <div class="blog-item-wrap">
+                                                    <div class="row justify-content-center">
+                                                        <div class="col-lg-4 col-md-6 col-sm-10">
+                                                            <div class="blog-grid-item">
+                                                                <div class="blog-grid-thumb">
+                                                                    <a href="blog-details.html"><img
+                                                                            src="/static/img/blog/blog_img02.jpg"
+                                                                            alt=""></a>
+                                                                </div>
+                                                                <div class="blog-grid-content">
+                                                                    <span class="date">June 19, 2023</span>
+                                                                    <h2 class="title"><a href="blog-details.html">Model
+                                                                        1111</a></h2>
+                                                                    <p>Model 1 is generally used to classify email.</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-4 col-md-6 col-sm-10">
+                                                            <div class="blog-grid-item">
+                                                                <div class="blog-grid-thumb">
+                                                                    <a href="blog-details.html"><img
+                                                                            src="/static/img/blog/blog_img03.jpg"
+                                                                            alt=""></a>
+                                                                </div>
+                                                                <div class="blog-grid-content">
+                                                                    <span class="date">January 25, 2023</span>
+                                                                    <h2 class="title"><a href="blog-details.html">Model
+                                                                        2</a></h2>
+                                                                    <p>Model 2 is generally used to analyze emotion.</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-4 col-md-6 col-sm-10">
+                                                            <div class="blog-grid-item">
+                                                                <div class="blog-grid-thumb">
+                                                                    <a href="blog-details.html"><img
+                                                                            src="/static/img/blog/blog_img04.jpg"
+                                                                            alt=""></a>
+                                                                </div>
+                                                                <div class="blog-grid-content">
+                                                                    <span class="date">June 17, 2022</span>
+                                                                    <h2 class="title"><a href="blog-details.html">Model
+                                                                        3</a></h2>
+                                                                    <p>Model 3 is generally used to classify news.</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-4 col-md-6 col-sm-10">
+                                                            <div class="blog-grid-item">
+                                                                <div class="blog-grid-thumb">
+                                                                    <a href="blog-details.html"><img
+                                                                            src="/static/img/blog/blog_img05.jpg"
+                                                                            alt=""></a>
+                                                                </div>
+                                                                <div class="blog-grid-content">
+                                                                    <span class="date">August 31, 2023</span>
+                                                                    <h2 class="title"><a href="blog-details.html">Model
+                                                                        4</a></h2>
+                                                                    <p>Model 4 is generally used to...</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-4 col-md-6 col-sm-10">
+                                                            <div class="blog-grid-item">
+                                                                <div class="blog-grid-thumb">
+                                                                    <a href="blog-details.html"><img
+                                                                            src="/static/img/blog/blog_img06.jpg"
+                                                                            alt=""></a>
+                                                                </div>
+                                                                <div class="blog-grid-content">
+                                                                    <span class="date">June 2, 2020</span>
+                                                                    <h2 class="title"><a href="blog-details.html">Model
+                                                                        5</a></h2>
+                                                                    <p>Model 5 is generally used to...</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-4 col-md-6 col-sm-10">
+                                                            <div class="blog-grid-item">
+                                                                <div class="blog-grid-thumb">
+                                                                    <a href="blog-details.html"><img
+                                                                            src="/static/img/blog/blog_img07.jpg"
+                                                                            alt=""></a>
+                                                                </div>
+                                                                <div class="blog-grid-content">
+                                                                    <span class="date">June 5, 2019</span>
+                                                                    <h2 class="title"><a href="blog-details.html">Model
+                                                                        6</a></h2>
+                                                                    <p>Model 6 is generally used to...</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="tab-pane fade" id="translator-tab-pane" role="tabpanel"
+                                                 aria-labelledby="translator-tab" tabindex="0">
+                                                <div class="blog-item-wrap">
+                                                    <div class="row justify-content-center">
+                                                        <div class="col-lg-4 col-md-6 col-sm-10">
+                                                            <div class="blog-grid-item">
+                                                                <div class="blog-grid-thumb">
+                                                                    <a href="blog-details.html"><img
+                                                                            src="/static/img/blog/blog_img02.jpg"
+                                                                            alt=""></a>
+                                                                </div>
+                                                                <div class="blog-grid-content">
+                                                                    <span class="date">June 19, 2023</span>
+                                                                    <h2 class="title"><a href="blog-details.html">Model
+                                                                        7</a></h2>
+                                                                    <p>Model 7 is generally used to classify email.</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-4 col-md-6 col-sm-10">
+                                                            <div class="blog-grid-item">
+                                                                <div class="blog-grid-thumb">
+                                                                    <a href="blog-details.html"><img
+                                                                            src="/static/img/blog/blog_img03.jpg"
+                                                                            alt=""></a>
+                                                                </div>
+                                                                <div class="blog-grid-content">
+                                                                    <span class="date">January 25, 2023</span>
+                                                                    <h2 class="title"><a href="blog-details.html">Model
+                                                                        2</a></h2>
+                                                                    <p>Model 2 is generally used to analyze emotion.</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-4 col-md-6 col-sm-10">
+                                                            <div class="blog-grid-item">
+                                                                <div class="blog-grid-thumb">
+                                                                    <a href="blog-details.html"><img
+                                                                            src="/static/img/blog/blog_img04.jpg"
+                                                                            alt=""></a>
+                                                                </div>
+                                                                <div class="blog-grid-content">
+                                                                    <span class="date">June 17, 2022</span>
+                                                                    <h2 class="title"><a href="blog-details.html">Model
+                                                                        3</a></h2>
+                                                                    <p>Model 3 is generally used to classify news.</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-4 col-md-6 col-sm-10">
+                                                            <div class="blog-grid-item">
+                                                                <div class="blog-grid-thumb">
+                                                                    <a href="blog-details.html"><img
+                                                                            src="/static/img/blog/blog_img05.jpg"
+                                                                            alt=""></a>
+                                                                </div>
+                                                                <div class="blog-grid-content">
+                                                                    <span class="date">August 31, 2023</span>
+                                                                    <h2 class="title"><a href="blog-details.html">Model
+                                                                        4</a></h2>
+                                                                    <p>Model 4 is generally used to...</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-4 col-md-6 col-sm-10">
+                                                            <div class="blog-grid-item">
+                                                                <div class="blog-grid-thumb">
+                                                                    <a href="blog-details.html"><img
+                                                                            src="/static/img/blog/blog_img06.jpg"
+                                                                            alt=""></a>
+                                                                </div>
+                                                                <div class="blog-grid-content">
+                                                                    <span class="date">June 2, 2020</span>
+                                                                    <h2 class="title"><a href="blog-details.html">Model
+                                                                        5</a></h2>
+                                                                    <p>Model 5 is generally used to...</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-4 col-md-6 col-sm-10">
+                                                            <div class="blog-grid-item">
+                                                                <div class="blog-grid-thumb">
+                                                                    <a href="blog-details.html"><img
+                                                                            src="/static/img/blog/blog_img07.jpg"
+                                                                            alt=""></a>
+                                                                </div>
+                                                                <div class="blog-grid-content">
+                                                                    <span class="date">June 5, 2019</span>
+                                                                    <h2 class="title"><a href="blog-details.html">Model
+                                                                        6</a></h2>
+                                                                    <p>Model 6 is generally used to...</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="tab-pane fade" id="text-generation-tab-pane" role="tabpanel"
+                                                 aria-labelledby="text-generation-tab" tabindex="0">
+                                                <div class="blog-item-wrap">
+                                                    <div class="row justify-content-center">
+                                                        <div class="col-lg-4 col-md-6 col-sm-10">
+                                                            <div class="blog-grid-item">
+                                                                <div class="blog-grid-thumb">
+                                                                    <a href="blog-details.html"><img
+                                                                            src="/static/img/blog/blog_img02.jpg"
+                                                                            alt=""></a>
+                                                                </div>
+                                                                <div class="blog-grid-content">
+                                                                    <span class="date">June 19, 2023</span>
+                                                                    <h2 class="title"><a href="blog-details.html">Model
+                                                                        20</a></h2>
+                                                                    <p>Model 20 is generally used to classify email.</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-4 col-md-6 col-sm-10">
+                                                            <div class="blog-grid-item">
+                                                                <div class="blog-grid-thumb">
+                                                                    <a href="blog-details.html"><img
+                                                                            src="/static/img/blog/blog_img03.jpg"
+                                                                            alt=""></a>
+                                                                </div>
+                                                                <div class="blog-grid-content">
+                                                                    <span class="date">January 25, 2023</span>
+                                                                    <h2 class="title"><a href="blog-details.html">Model
+                                                                        2</a></h2>
+                                                                    <p>Model 2 is generally used to analyze emotion.</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-4 col-md-6 col-sm-10">
+                                                            <div class="blog-grid-item">
+                                                                <div class="blog-grid-thumb">
+                                                                    <a href="blog-details.html"><img
+                                                                            src="/static/img/blog/blog_img04.jpg"
+                                                                            alt=""></a>
+                                                                </div>
+                                                                <div class="blog-grid-content">
+                                                                    <span class="date">June 17, 2022</span>
+                                                                    <h2 class="title"><a href="blog-details.html">Model
+                                                                        3</a></h2>
+                                                                    <p>Model 3 is generally used to classify news.</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-4 col-md-6 col-sm-10">
+                                                            <div class="blog-grid-item">
+                                                                <div class="blog-grid-thumb">
+                                                                    <a href="blog-details.html"><img
+                                                                            src="/static/img/blog/blog_img05.jpg"
+                                                                            alt=""></a>
+                                                                </div>
+                                                                <div class="blog-grid-content">
+                                                                    <span class="date">August 31, 2023</span>
+                                                                    <h2 class="title"><a href="blog-details.html">Model
+                                                                        4</a></h2>
+                                                                    <p>Model 4 is generally used to...</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-4 col-md-6 col-sm-10">
+                                                            <div class="blog-grid-item">
+                                                                <div class="blog-grid-thumb">
+                                                                    <a href="blog-details.html"><img
+                                                                            src="/static/img/blog/blog_img06.jpg"
+                                                                            alt=""></a>
+                                                                </div>
+                                                                <div class="blog-grid-content">
+                                                                    <span class="date">June 2, 2020</span>
+                                                                    <h2 class="title"><a href="blog-details.html">Model
+                                                                        5</a></h2>
+                                                                    <p>Model 5 is generally used to...</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-4 col-md-6 col-sm-10">
+                                                            <div class="blog-grid-item">
+                                                                <div class="blog-grid-thumb">
+                                                                    <a href="blog-details.html"><img
+                                                                            src="/static/img/blog/blog_img07.jpg"
+                                                                            alt=""></a>
+                                                                </div>
+                                                                <div class="blog-grid-content">
+                                                                    <span class="date">June 5, 2019</span>
+                                                                    <h2 class="title"><a href="blog-details.html">Model
+                                                                        6</a></h2>
+                                                                    <p>Model 6 is generally used to...</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+
     </main>
     <!-- main-area-end -->
 {% endblock %}
