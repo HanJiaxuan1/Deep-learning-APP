@@ -26,6 +26,6 @@ urlpatterns = [
     path('use-model/', views.use),
     path('about/', views.about),
     path('signup/', views.signup),
-    path('profile/', views.profile)
-
+    path('profile/', views.profile),
+    path('model-detail/', views.model_detail),
 ]
