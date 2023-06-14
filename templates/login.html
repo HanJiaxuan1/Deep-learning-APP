@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "base_login.html" %}
 
 {% block body %}
 
@@ -13,7 +13,7 @@
                     <div class="row justify-content-center">
                         <div class="col-lg-5 col-md-10">
                             <div class="login-content">
-                                <h3 class="title">Create your account</h3>
+                                <h3 class="title">Login your account</h3>
                                 <span>👋 Welcome back! Please enter your details.</span>
                                 <form action="#">
                                     <div class="form-grp">
@@ -24,13 +24,13 @@
                                         <label for="word">Password</label>
                                         <input type="password" id="word">
                                     </div>
-                                    <div class="password-wrap">
-                                        <div class="form-grp checkbox-grp">
-                                            <input type="checkbox" id="checkbox" class="form-check-input">
-                                            <label for="checkbox">Remember for 30 days</label>
-                                        </div>
-                                        <button type="reset">Forgot Password</button>
-                                    </div>
+{#                                    <div class="password-wrap">#}
+{#                                        <div class="form-grp checkbox-grp">#}
+{#                                            <input type="checkbox" id="checkbox" class="form-check-input">#}
+{#                                            <label for="checkbox">Remember for 30 days</label>#}
+{#                                        </div>#}
+{#                                        <button type="reset">Forgot Password</button>#}
+{#                                    </div>#}
                                     <button type="submit" class="sine-btn">sign in</button>
                                     <span>Don’t have an account? Sign up for free</span>
                                 </form>
