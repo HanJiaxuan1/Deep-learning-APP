@@ -41,11 +41,12 @@
                             </div>
                             <div class="blog-input-wrap">
                                 <h3 class="comment-reply-title">Please upload the input data</h3>
-                                <form class="comment-form" action="#">
+                                <form class="comment-form" action="/model-detail/" method="post">
+                                    {% csrf_token %}
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="form-grp">
-                                                <input type="text" id="input" value="Your input here...">
+                                                <input type="text" id="input" name="input">
                                             </div>
                                         </div>
                                     </div>
@@ -61,7 +62,7 @@
                                             <div class="blog-grid-content">
                                                 <span class="text">Here is the result...</span>
                                                 <h2 class="title">The predicted outcome of model is</h2>
-                                                <p>The predicted accuracy is.</p>
+                                                <p>{{ outcome }}</p>
                                             </div>
                                         </div>
                                     </div>
