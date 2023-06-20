@@ -3,6 +3,7 @@ from django.shortcuts import render
 import pickle
 from transformers import AutoModelForSequenceClassification, AutoTokenizer, \
     TextClassificationPipeline, AutoModelForMaskedLM, AutoModelForSeq2SeqLM
+from app.models import Model
 
 
 # Create your views here.
@@ -23,6 +24,17 @@ def signup(request):
 
 
 def use(request):
+    models = Model.objects.all()
+    tag1 = []
+    tag2 = []
+    tag3 = []
+    for i in models:
+        if i.tag == 'option1':
+            tag1.append(i)
+        elif i.tag == 'option2':
+            tag2.append(i)
+        else:
+            tag3.append(i)
     return render(request, 'useModel.html')
 
 
