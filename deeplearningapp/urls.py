@@ -19,14 +19,15 @@ from django.urls import path
 from . import views, upload_model
 
 urlpatterns = [
+    path('', views.home, name='index'),
     path('admin/', admin.site.urls),
     path('hello/', views.hello),
     path('home/', views.home),
     path('login/', views.login),
-    path('use-model/', views.use),
+    path('use_model/', views.use),
     path('about/', views.about),
     path('signup/', views.signup),
     path('profile/', views.profile),
     path('model-detail/', views.model_detail),
-    path('model-upload/', upload_model.upload_model)
+    path('model-upload/', upload_model.upload_model),
 ]
