@@ -26,6 +26,7 @@ def signup(request):
 def use(request):
     models = Model.objects.all()
     model_list = []
+    j = 1
     for i in models:
         model_dic = {}
         if i.tag == 'option1':
@@ -34,10 +35,13 @@ def use(request):
             model_dic['option'] = 2
         else:
             model_dic['option'] = 3
+        model_dic['model_id'] = i.model_id
+        model_dic['img_id'] = j
         model_dic['name'] = i.model_name
         model_dic['date'] = i.upload_date
         model_dic['task_des'] = i.task_des
         model_list.append(model_dic)
+        j += 1
     return render(request, 'useModel.html', context={'my_list': model_list})
 
 
@@ -46,6 +50,9 @@ def about(request):
 
 
 def model_detail(request):
+    model_id = request.GET.get('param')
+    model = Model.objects.get(model_id=model_id)
+
     ctx = {}
     if request.POST:
         input1 = request.POST.get("input")
@@ -84,16 +91,15 @@ def model_detail(request):
         # pipeline = TextClassificationPipeline(model=model, tokenizer=tokenizer)
 
         # 本地调用配置文件用与toxic
-        save_directory = "deeplearningapp/models/finbert-tone"  # 要保存模型的目录路径
+        save_directory = "deeplearningapp/models/" + model.model_name  # 要保存模型的目录路径
         # model.save_pretrained(save_directory)  # 将模型保存到指定目录
         # tokenizer.save_pretrained(save_directory)
-        model = AutoModelForSequenceClassification.from_pretrained(save_directory)
+        dl_model = AutoModelForSequenceClassification.from_pretrained(save_directory)
         tokenizer = AutoTokenizer.from_pretrained(save_directory)
-        pipeline = TextClassificationPipeline(model=model, tokenizer=tokenizer)
-        print(pipeline)
+        pipeline = TextClassificationPipeline(model=dl_model, tokenizer=tokenizer)
         ctx['outcome'] = pipeline(input1)[0]['label']
 
-    return render(request, 'model-detail.html', ctx)
+    return render(request, 'model-detail.html', context={"model": model, "ctx": ctx})
 
 
 def profile(request):
