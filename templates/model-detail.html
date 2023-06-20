@@ -28,14 +28,15 @@
                         <div class="col-lg-12">
                             <div class="blog-details-wrap">
                                 <div class="blog-details-content">
-                                    <span class="date">{{ model.date }}</span>
-                                    <h2 class="title">{{ model.name }}</h2>
+                                    <span class="date">{{ model.upload_date }}</span>
+                                    <h2 class="title">Model Name: {{ model.model_name }}</h2>
                                     <p class="info-one">{{ model.background }}</p>
+                                    <p><br></p>
                                     <span class="list-title">Here are some requirements to test this model:</span>
                                     <ul class="list-wrap">
-                                        <li><i class="far fa-check"></i>{{ model.task_des }}</li>
-                                        <li><i class="far fa-check"></i>{{ model.input_des }}</li>
-                                        <li><i class="far fa-check"></i>{{ model.output_des }}</li>
+                                        <li><i class="far fa-check"></i>Task: {{ model.task_des }}</li>
+                                        <li><i class="far fa-check"></i>Input: {{ model.input_des }}</li>
+                                        <li><i class="far fa-check"></i>Output: {{ model.output_des }}</li>
                                     </ul>
                                 </div>
                             </div>

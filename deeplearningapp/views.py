@@ -36,7 +36,7 @@ def use(request):
         else:
             model_dic['option'] = 3
         model_dic['model_id'] = i.model_id
-        model_dic['img_id'] = j
+        model_dic['img_id'] = j % 10
         model_dic['name'] = i.model_name
         model_dic['date'] = i.upload_date
         model_dic['task_des'] = i.task_des
