@@ -25,17 +25,20 @@ def signup(request):
 
 def use(request):
     models = Model.objects.all()
-    tag1 = []
-    tag2 = []
-    tag3 = []
+    model_list = []
     for i in models:
+        model_dic = {}
         if i.tag == 'option1':
-            tag1.append(i)
+            model_dic['option'] = 1
         elif i.tag == 'option2':
-            tag2.append(i)
+            model_dic['option'] = 2
         else:
-            tag3.append(i)
-    return render(request, 'useModel.html')
+            model_dic['option'] = 3
+        model_dic['name'] = i.model_name
+        model_dic['date'] = i.upload_date
+        model_dic['task_des'] = i.task_des
+        model_list.append(model_dic)
+    return render(request, 'useModel.html', context={'my_list': model_list})
 
 
 def about(request):

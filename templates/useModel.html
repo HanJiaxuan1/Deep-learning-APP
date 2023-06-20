@@ -40,81 +40,26 @@
                                 </ul>
 
                                 <div class="tab-content" id="myTabContent">
+
                                     <div class="tab-pane fade show active" id="text-classification-tab-pane" role="tabpanel" aria-labelledby="text-classification-tab" tabindex="0">
                                         <div class="blog-item-wrap">
                                             <div class="row justify-content-center">
-                                                <div class="col-lg-4 col-md-6 col-sm-10">
-                                                    <div class="blog-grid-item">
-                                                        <div class="blog-grid-thumb">
-                                                            <a href="blog-details.html"><img src="/static/img/blog/blog_img02.jpg" alt=""></a>
+                                                {% for item in my_list %}
+                                                    {% if item.option == 1 %}
+                                                        <div class="col-lg-4 col-md-6 col-sm-10">
+                                                            <div class="blog-grid-item">
+                                                                <div class="blog-grid-thumb">
+                                                                    <a href="blog-details.html"><img src="/static/img/blog/blog_img02.jpg" alt=""></a>
+                                                                </div>
+                                                                <div class="blog-grid-content">
+                                                                    <span class="date">{{ item.date }}</span>
+                                                                    <h2 class="title"><a href="/model-detail">{{ item.name }}</a></h2>
+                                                                    <p>This model is generally used for {{ item.task_des }}.</p>
+                                                                </div>
+                                                            </div>
                                                         </div>
-                                                        <div class="blog-grid-content">
-                                                            <span class="date">June 19, 2023</span>
-                                                            <h2 class="title"><a href="/model-detail">Model 1</a></h2>
-                                                            <p>Model 1 is generally used to classify email.</p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-4 col-md-6 col-sm-10">
-                                                    <div class="blog-grid-item">
-                                                        <div class="blog-grid-thumb">
-                                                            <a href="blog-details.html"><img src="/static/img/blog/blog_img03.jpg" alt=""></a>
-                                                        </div>
-                                                        <div class="blog-grid-content">
-                                                            <span class="date">January 25, 2023</span>
-                                                            <h2 class="title"><a href="blog-details.html">Model 2</a></h2>
-                                                            <p>Model 2 is generally used to analyze emotion.</p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-4 col-md-6 col-sm-10">
-                                                    <div class="blog-grid-item">
-                                                        <div class="blog-grid-thumb">
-                                                            <a href="blog-details.html"><img src="/static/img/blog/blog_img04.jpg" alt=""></a>
-                                                        </div>
-                                                        <div class="blog-grid-content">
-                                                            <span class="date">June 17, 2022</span>
-                                                            <h2 class="title"><a href="blog-details.html">Model 3</a></h2>
-                                                            <p>Model 3 is generally used to classify news.</p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-4 col-md-6 col-sm-10">
-                                                    <div class="blog-grid-item">
-                                                        <div class="blog-grid-thumb">
-                                                            <a href="blog-details.html"><img src="/static/img/blog/blog_img05.jpg" alt=""></a>
-                                                        </div>
-                                                        <div class="blog-grid-content">
-                                                            <span class="date">August 31, 2023</span>
-                                                            <h2 class="title"><a href="blog-details.html">Model 4</a></h2>
-                                                            <p>Model 4 is generally used to...</p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-4 col-md-6 col-sm-10">
-                                                    <div class="blog-grid-item">
-                                                        <div class="blog-grid-thumb">
-                                                            <a href="blog-details.html"><img src="/static/img/blog/blog_img06.jpg" alt=""></a>
-                                                        </div>
-                                                        <div class="blog-grid-content">
-                                                            <span class="date">June 2, 2020</span>
-                                                            <h2 class="title"><a href="blog-details.html">Model 5</a></h2>
-                                                            <p>Model 5 is generally used to...</p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-4 col-md-6 col-sm-10">
-                                                    <div class="blog-grid-item">
-                                                        <div class="blog-grid-thumb">
-                                                            <a href="blog-details.html"><img src="/static/img/blog/blog_img07.jpg" alt=""></a>
-                                                        </div>
-                                                        <div class="blog-grid-content">
-                                                            <span class="date">June 5, 2019</span>
-                                                            <h2 class="title"><a href="blog-details.html">Model 6</a></h2>
-                                                            <p>Model 6 is generally used to...</p>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                                    {% endif %}
+                                                {% endfor %}
                                             </div>
                                         </div>
                                     </div>
@@ -122,78 +67,22 @@
                                     <div class="tab-pane fade" id="translator-tab-pane" role="tabpanel" aria-labelledby="translator-tab" tabindex="0">
                                         <div class="blog-item-wrap">
                                             <div class="row justify-content-center">
-                                                <div class="col-lg-4 col-md-6 col-sm-10">
-                                                    <div class="blog-grid-item">
-                                                        <div class="blog-grid-thumb">
-                                                            <a href="blog-details.html"><img src="/static/img/blog/blog_img02.jpg" alt=""></a>
+                                                {% for item in my_list %}
+                                                    {% if item.option == 2 %}
+                                                        <div class="col-lg-4 col-md-6 col-sm-10">
+                                                            <div class="blog-grid-item">
+                                                                <div class="blog-grid-thumb">
+                                                                    <a href="blog-details.html"><img src="/static/img/blog/blog_img02.jpg" alt=""></a>
+                                                                </div>
+                                                                <div class="blog-grid-content">
+                                                                    <span class="date">{{ item.date }}</span>
+                                                                    <h2 class="title"><a href="/model-detail">{{ item.name }}</a></h2>
+                                                                    <p>This model is generally used for {{ item.task_des }}.</p>
+                                                                </div>
+                                                            </div>
                                                         </div>
-                                                        <div class="blog-grid-content">
-                                                            <span class="date">June 19, 2023</span>
-                                                            <h2 class="title"><a href="blog-details.html">Model 7</a></h2>
-                                                            <p>Model 7 is generally used to classify email.</p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-4 col-md-6 col-sm-10">
-                                                    <div class="blog-grid-item">
-                                                        <div class="blog-grid-thumb">
-                                                            <a href="blog-details.html"><img src="/static/img/blog/blog_img03.jpg" alt=""></a>
-                                                        </div>
-                                                        <div class="blog-grid-content">
-                                                            <span class="date">January 25, 2023</span>
-                                                            <h2 class="title"><a href="blog-details.html">Model 2</a></h2>
-                                                            <p>Model 2 is generally used to analyze emotion.</p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-4 col-md-6 col-sm-10">
-                                                    <div class="blog-grid-item">
-                                                        <div class="blog-grid-thumb">
-                                                            <a href="blog-details.html"><img src="/static/img/blog/blog_img04.jpg" alt=""></a>
-                                                        </div>
-                                                        <div class="blog-grid-content">
-                                                            <span class="date">June 17, 2022</span>
-                                                            <h2 class="title"><a href="blog-details.html">Model 3</a></h2>
-                                                            <p>Model 3 is generally used to classify news.</p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-4 col-md-6 col-sm-10">
-                                                    <div class="blog-grid-item">
-                                                        <div class="blog-grid-thumb">
-                                                            <a href="blog-details.html"><img src="/static/img/blog/blog_img05.jpg" alt=""></a>
-                                                        </div>
-                                                        <div class="blog-grid-content">
-                                                            <span class="date">August 31, 2023</span>
-                                                            <h2 class="title"><a href="blog-details.html">Model 4</a></h2>
-                                                            <p>Model 4 is generally used to...</p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-4 col-md-6 col-sm-10">
-                                                    <div class="blog-grid-item">
-                                                        <div class="blog-grid-thumb">
-                                                            <a href="blog-details.html"><img src="/static/img/blog/blog_img06.jpg" alt=""></a>
-                                                        </div>
-                                                        <div class="blog-grid-content">
-                                                            <span class="date">June 2, 2020</span>
-                                                            <h2 class="title"><a href="blog-details.html">Model 5</a></h2>
-                                                            <p>Model 5 is generally used to...</p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-4 col-md-6 col-sm-10">
-                                                    <div class="blog-grid-item">
-                                                        <div class="blog-grid-thumb">
-                                                            <a href="blog-details.html"><img src="/static/img/blog/blog_img07.jpg" alt=""></a>
-                                                        </div>
-                                                        <div class="blog-grid-content">
-                                                            <span class="date">June 5, 2019</span>
-                                                            <h2 class="title"><a href="blog-details.html">Model 6</a></h2>
-                                                            <p>Model 6 is generally used to...</p>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                                    {% endif %}
+                                                {% endfor %}
                                             </div>
                                         </div>
                                     </div>
@@ -201,78 +90,22 @@
                                     <div class="tab-pane fade" id="text-generation-tab-pane" role="tabpanel" aria-labelledby="text-generation-tab" tabindex="0">
                                         <div class="blog-item-wrap">
                                             <div class="row justify-content-center">
-                                                <div class="col-lg-4 col-md-6 col-sm-10">
-                                                    <div class="blog-grid-item">
-                                                        <div class="blog-grid-thumb">
-                                                            <a href="blog-details.html"><img src="/static/img/blog/blog_img02.jpg" alt=""></a>
+                                                {% for item in my_list %}
+                                                    {% if item.option == 3 %}
+                                                        <div class="col-lg-4 col-md-6 col-sm-10">
+                                                            <div class="blog-grid-item">
+                                                                <div class="blog-grid-thumb">
+                                                                    <a href="blog-details.html"><img src="/static/img/blog/blog_img02.jpg" alt=""></a>
+                                                                </div>
+                                                                <div class="blog-grid-content">
+                                                                    <span class="date">{{ item.date }}</span>
+                                                                    <h2 class="title"><a href="/model-detail">{{ item.name }}</a></h2>
+                                                                    <p>This model is generally used for {{ item.task_des }}.</p>
+                                                                </div>
+                                                            </div>
                                                         </div>
-                                                        <div class="blog-grid-content">
-                                                            <span class="date">June 19, 2023</span>
-                                                            <h2 class="title"><a href="blog-details.html">Model 20</a></h2>
-                                                            <p>Model 20 is generally used to classify email.</p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-4 col-md-6 col-sm-10">
-                                                    <div class="blog-grid-item">
-                                                        <div class="blog-grid-thumb">
-                                                            <a href="blog-details.html"><img src="/static/img/blog/blog_img03.jpg" alt=""></a>
-                                                        </div>
-                                                        <div class="blog-grid-content">
-                                                            <span class="date">January 25, 2023</span>
-                                                            <h2 class="title"><a href="blog-details.html">Model 2</a></h2>
-                                                            <p>Model 2 is generally used to analyze emotion.</p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-4 col-md-6 col-sm-10">
-                                                    <div class="blog-grid-item">
-                                                        <div class="blog-grid-thumb">
-                                                            <a href="blog-details.html"><img src="/static/img/blog/blog_img04.jpg" alt=""></a>
-                                                        </div>
-                                                        <div class="blog-grid-content">
-                                                            <span class="date">June 17, 2022</span>
-                                                            <h2 class="title"><a href="blog-details.html">Model 3</a></h2>
-                                                            <p>Model 3 is generally used to classify news.</p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-4 col-md-6 col-sm-10">
-                                                    <div class="blog-grid-item">
-                                                        <div class="blog-grid-thumb">
-                                                            <a href="blog-details.html"><img src="/static/img/blog/blog_img05.jpg" alt=""></a>
-                                                        </div>
-                                                        <div class="blog-grid-content">
-                                                            <span class="date">August 31, 2023</span>
-                                                            <h2 class="title"><a href="blog-details.html">Model 4</a></h2>
-                                                            <p>Model 4 is generally used to...</p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-4 col-md-6 col-sm-10">
-                                                    <div class="blog-grid-item">
-                                                        <div class="blog-grid-thumb">
-                                                            <a href="blog-details.html"><img src="/static/img/blog/blog_img06.jpg" alt=""></a>
-                                                        </div>
-                                                        <div class="blog-grid-content">
-                                                            <span class="date">June 2, 2020</span>
-                                                            <h2 class="title"><a href="blog-details.html">Model 5</a></h2>
-                                                            <p>Model 5 is generally used to...</p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-4 col-md-6 col-sm-10">
-                                                    <div class="blog-grid-item">
-                                                        <div class="blog-grid-thumb">
-                                                            <a href="blog-details.html"><img src="/static/img/blog/blog_img07.jpg" alt=""></a>
-                                                        </div>
-                                                        <div class="blog-grid-content">
-                                                            <span class="date">June 5, 2019</span>
-                                                            <h2 class="title"><a href="blog-details.html">Model 6</a></h2>
-                                                            <p>Model 6 is generally used to...</p>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                                    {% endif %}
+                                                {% endfor %}
                                             </div>
                                         </div>
                                     </div>
