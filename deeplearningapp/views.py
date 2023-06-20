@@ -2,7 +2,7 @@ import pandas as pd
 from django.shortcuts import render
 import pickle
 from transformers import AutoModelForSequenceClassification, AutoTokenizer, \
-    TextClassificationPipeline, AutoModelForMaskedLM
+    TextClassificationPipeline, AutoModelForMaskedLM, AutoModelForSeq2SeqLM
 
 
 # Create your views here.
@@ -69,12 +69,13 @@ def model_detail(request):
         # pipeline = TextClassificationPipeline(model=model, tokenizer=tokenizer)
 
         # 本地调用配置文件用与toxic
-        save_directory = "deeplearningapp/models/"  # 要保存模型的目录路径
+        save_directory = "deeplearningapp/models/finbert-tone"  # 要保存模型的目录路径
         # model.save_pretrained(save_directory)  # 将模型保存到指定目录
         # tokenizer.save_pretrained(save_directory)
         model = AutoModelForSequenceClassification.from_pretrained(save_directory)
         tokenizer = AutoTokenizer.from_pretrained(save_directory)
         pipeline = TextClassificationPipeline(model=model, tokenizer=tokenizer)
+        print(pipeline)
         ctx['outcome'] = pipeline(input1)[0]['label']
 
     return render(request, 'model-detail.html', ctx)
