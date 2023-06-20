@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from . import views
+from . import views, upload_model
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -28,4 +28,5 @@ urlpatterns = [
     path('signup/', views.signup),
     path('profile/', views.profile),
     path('model-detail/', views.model_detail),
+    path('model-upload/', upload_model.upload_model)
 ]
