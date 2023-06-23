@@ -91,11 +91,16 @@ def model_detail(request):
         # pipeline = TextClassificationPipeline(model=model, tokenizer=tokenizer)
 
         # 本地调用配置文件用与toxic
-        save_directory = "deeplearningapp/models/" + model.model_name  # 要保存模型的目录路径
-        # model.save_pretrained(save_directory)  # 将模型保存到指定目录
-        # tokenizer.save_pretrained(save_directory)
-        dl_model = AutoModelForSequenceClassification.from_pretrained(save_directory)
-        tokenizer = AutoTokenizer.from_pretrained(save_directory)
+        # save_directory = "deeplearningapp/models/" + model.model_name  # 要保存模型的目录路径
+        # # model.save_pretrained(save_directory)  # 将模型保存到指定目录
+        # # tokenizer.save_pretrained(save_directory)
+        # dl_model = AutoModelForSequenceClassification.from_pretrained(save_directory)
+        # tokenizer = AutoTokenizer.from_pretrained(save_directory)
+        # pipeline = TextClassificationPipeline(model=dl_model, tokenizer=tokenizer)
+        serialized_model = model.model_data
+        dl_model = pickle.loads(serialized_model)
+        serialized_token = model.tokenizer_data
+        tokenizer = pickle.loads(serialized_token)
         pipeline = TextClassificationPipeline(model=dl_model, tokenizer=tokenizer)
         ctx['outcome'] = pipeline(input1)[0]['label']
 

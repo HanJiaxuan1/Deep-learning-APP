@@ -1,4 +1,5 @@
 from django.db import models
+import pickle
 
 
 # Create your models here.
@@ -23,5 +24,5 @@ class Model(models.Model):
     input_des = models.CharField(max_length=500)
     output_des = models.CharField(max_length=500)
     task_des = models.CharField(max_length=500)
-
-
+    model_data = models.BinaryField(default=b'\x00\x01\x02')
+    tokenizer_data = models.BinaryField(default=b'\x00\x01\x02')
