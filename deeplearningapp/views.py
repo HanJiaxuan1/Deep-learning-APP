@@ -71,21 +71,5 @@ def model_detail(request):
     return render(request, 'model-detail.html', context={"model": model, "ctx": ctx})
 
 
-# def model_detail(request):
-#     model_id = request.GET.get('param')
-#     model = Model.objects.get(model_id=model_id)
-#     ctx = {}
-#     if request.POST:
-#         input1 = request.POST.get("input")
-#         serialized_model = model.model_data
-#         dl_model = pickle.loads(serialized_model)
-#         serialized_token = model.tokenizer_data
-#         tokenizer = pickle.loads(serialized_token)
-#         pipeline = TextClassificationPipeline(model=dl_model, tokenizer=tokenizer)
-#         ctx['outcome'] = pipeline(input1)[0]['label']
-#
-#     return render(request, 'model-detail.html', context={"model": model, "ctx": ctx})
-
-
 def profile(request):
     return render(request, 'profile.html')
