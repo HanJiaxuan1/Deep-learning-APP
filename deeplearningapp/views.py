@@ -52,7 +52,7 @@ def about(request):
 
 
 # 创建一个线程池
-executor = ThreadPoolExecutor(max_workers=5)
+executor = ThreadPoolExecutor(max_workers=50)
 def call_model(serialized_model, serialized_tokenizer, input1):
     dl_model = pickle.loads(serialized_model)
     tokenizer = pickle.loads(serialized_tokenizer)
