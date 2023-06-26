@@ -24,7 +24,9 @@ def signup(request):
 
 
 def use(request):
-    models = Model.objects.all()
+    # models = Model.objects.all()
+    models = Model.objects.defer("tokenizer_data", "model_data")
+
     model_list = []
     j = 1
     for i in models:
