@@ -70,6 +70,7 @@ def model_detail(request):
         future = executor.submit(call_model, model.model_data, model.tokenizer_data, input1)
         # 你可以获取任务的结果（这会阻塞线程，直到结果可用）
         ctx['outcome'] = future.result()
+        ctx['input'] = input1
     return render(request, 'model-detail.html', context={"model": model, "ctx": ctx})
 
 
