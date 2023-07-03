@@ -33,4 +33,6 @@ urlpatterns = [
     path('model-detail/', views.model_detail),
     path('model-upload/', upload_model.upload_model),
     path('model-add-db/', upload_model.add_model),
+    path('deployment/', views.deployment),
+    path('upload-model/', views.upload_model),
 ]

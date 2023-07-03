@@ -7,6 +7,7 @@ from app.models import Model,User
 from concurrent.futures import ThreadPoolExecutor
 from django.contrib import auth
 from werkzeug.security import generate_password_hash
+from django.core.files.storage import FileSystemStorage
 
 
 # Create your views here.
@@ -16,6 +17,10 @@ def hello(request):
 
 def home(request):
     return render(request, 'header.html')
+
+
+def deployment(request):
+    return render(request, 'deployment.html')
 
 
 def login(request):
@@ -194,3 +199,13 @@ def model_detail(request):
 
 def profile(request):
     return render(request, 'profile.html')
+
+
+def upload_model(request):
+    if request.method == 'POST':
+        files = request.FILES.getlist('files[]')
+        model_name = request.POST.get('name')
+        for file in files:
+            fs = FileSystemStorage(location='models/'+model_name)
+            fs.save(file.name, file)
+        return render(request, 'index.html')
