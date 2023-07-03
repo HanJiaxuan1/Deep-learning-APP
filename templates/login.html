@@ -2,54 +2,94 @@
 {% block title %} Sub.DL - Login {% endblock %}
 {% block body %}
 
-        <!-- main-area -->
-        <main class="main-content">
-            <div class="noise-bg" data-background="/static/img/bg/noise_bg.png"></div>
-            <div class="main-shape" data-background="/static/img/images/main_shape.png"></div>
+    <!-- main-area -->
+    <main class="main-content">
+        <div class="noise-bg" data-background="/static/img/bg/noise_bg.png"></div>
+        <div class="main-shape" data-background="/static/img/images/main_shape.png"></div>
 
-            <!-- login-area -->
-            <section class="login-area">
-                <div class="container">
-                    <div class="row justify-content-center">
-                        <div class="col-lg-5 col-md-10">
-                            <div class="login-content">
-                                <h3 class="title">Login your account</h3>
-                                <span>👋 Welcome back! Please enter your details.</span>
-                                <form action="#">
-                                    <div class="form-grp">
-                                        <label for="email">Your Email</label>
-                                        <input type="email" id="email">
-                                    </div>
-                                    <div class="form-grp">
-                                        <label for="word">Password</label>
-                                        <input type="password" id="word">
-                                    </div>
-{#                                    <div class="password-wrap">#}
-{#                                        <div class="form-grp checkbox-grp">#}
-{#                                            <input type="checkbox" id="checkbox" class="form-check-input">#}
-{#                                            <label for="checkbox">Remember for 30 days</label>#}
-{#                                        </div>#}
-{#                                        <button type="reset">Forgot Password</button>#}
-{#                                    </div>#}
-                                    <button type="submit" class="sine-btn">sign in</button>
-                                    <a href="/signup">Don’t have an account? Sign up for free</a>
-                                </form>
-                            </div>
-                        </div>
-                        <div class="col-lg-7">
-                            <div class="login-right-content-wrap">
-                                <div class="login-right-content-inner">
-                                    <img src="/static/img/images/login_img.png" alt="">
-                                    <h4 class="title">Use / Deploy deep learning Model. Try <span>Sud.DL </span> and start your amazing journey</h4>
+        <!-- login-area -->
+        <section class="login-area">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-5 col-md-10">
+                        <div class="login-content">
+                            <h3 class="title">Login your account</h3>
+                            <span>👋 Welcome back! Please enter your details.</span>
+                            <form onsubmit="return checkLogin()">
+                                {% csrf_token %}
+                                <div class="form-grp">
+                                    <label for="email">Your Email</label>
+                                    <input type="email" id="email" required>
                                 </div>
+                                <div class="form-grp">
+                                    <label for="password">Password</label>
+                                    <input type="password" id="password" required>
+                                </div>
+                                <button type="submit" class="sine-btn">sign in</button>
+                                <a href="/signup">Don’t have an account? Sign up for free</a>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="col-lg-7">
+                        <div class="login-right-content-wrap">
+                            <div class="login-right-content-inner">
+                                <img src="/static/img/images/login_img.png" alt="">
+                                <h4 class="title">Use / Deploy deep learning Model. Try <span>Sud.DL </span> and start
+                                    your amazing journey</h4>
                             </div>
                         </div>
                     </div>
                 </div>
-            </section>
-            <!-- login-area-end -->
+            </div>
+        </section>
+        <!-- login-area-end -->
 
-        </main>
-        <!-- main-area-end -->
+    </main>
+    <!-- main-area-end -->
 
+{% endblock %}
+
+{% block script %}
+    <script>
+        function checkLogin() {
+            let email = $('#email').val();
+            let password = $('#password').val();
+            let csrfmiddlewaretoken = $('input[name=csrfmiddlewaretoken]').val();
+            if (!email.trim()) {
+                $('#modal-warning').modal('show');
+                $('#msg_content').html("Email cannot be empty.");
+                return false;
+            }
+            if (!password.trim()) {
+                $('#modal-warning').modal('show');
+                $('#msg_content').html("Password cannot be empty.");
+                return false;
+            }
+            AjaxForLoginHere(email, password,csrfmiddlewaretoken);
+            return false;
+        }
+
+        function AjaxForLoginHere(email, password,csrfmiddlewaretoken) {
+            $.ajax({
+                type: 'post',
+                url: '/LoginCheck/',
+                data: {'email': email, 'password': password, 'csrfmiddlewaretoken': csrfmiddlewaretoken},
+                success: function (response) {
+                    switch (response) {
+                        case '0':
+                            $('#modal-warning').modal('show')
+                            $('#msg_content').html("The password or the email is wrong");
+                            break;
+                        case '1':
+                            window.location.replace("{% url 'index' %}");
+                            break;
+                    }
+                },
+                error: function () {
+                    $('#modal-warning').modal('show')
+                    $('#msg_content').html("Connection error");
+                }
+            })
+        }
+    </script>
 {% endblock %}

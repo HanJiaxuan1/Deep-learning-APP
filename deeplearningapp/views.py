@@ -1,11 +1,12 @@
-from django.shortcuts import render
+import pandas as pd
+from django.shortcuts import render,HttpResponse
 import pickle
 from transformers import AutoModelForSequenceClassification, AutoTokenizer, \
     TextClassificationPipeline, AutoModelForMaskedLM, AutoModelForSeq2SeqLM
-from app.models import Model
+from app.models import Model,User
 from concurrent.futures import ThreadPoolExecutor
-from django_q.tasks import schedule
-from django_q.tasks import async_task, Task, result
+from django.contrib import auth
+from werkzeug.security import generate_password_hash
 
 
 # Create your views here.
@@ -23,6 +24,31 @@ def login(request):
 
 def signup(request):
     return render(request, 'signup.html')
+
+
+def LoginCheck(request):
+    email = request.POST.get('email')
+    password = request.POST.get('password')
+    find_user = User.objects.filter(email=email).first()
+    if find_user is None or find_user.verify_password(password) is False:
+        return HttpResponse("0")
+    request.session["uid"] = find_user.uid
+    auth.login(request, find_user)
+    return HttpResponse("1")
+
+
+def RegisterCheck(request):
+    email = request.POST.get('email')
+    username = request.POST.get('username')
+    password = request.POST.get('password')
+    find_user = User.objects.filter(email=email).first()
+    if find_user is not None:
+        return HttpResponse("0")
+    password_hash = generate_password_hash(password)
+    new_user = User(email=email, username=username, password=password,
+                    password_hash=password_hash)
+    new_user.save()
+    return HttpResponse("1")
 
 
 def use(request):
@@ -70,10 +96,6 @@ def load_model(model_name, input1):
     tokenizer = AutoTokenizer.from_pretrained(save_directory)
     pipeline = TextClassificationPipeline(model=dl_model, tokenizer=tokenizer)
     return pipeline(input1)[0]['label']
-
-
-def task_finish(task: Task):
-    print(f'Task {task.name}(ID：{task.id}) finish!')
 
 
 def model_detail(request):

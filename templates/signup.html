@@ -2,62 +2,127 @@
 {% block title %} Sub.DL - Sign up {% endblock %}
 {% block body %}
 
-        <!-- main-area -->
-        <main class="main-content">
-            <div class="noise-bg" data-background="/static/img/bg/noise_bg.png"></div>
-            <div class="main-shape" data-background="/static/img/images/main_shape.png"></div>
+    <!-- main-area -->
+    <main class="main-content">
+        <div class="noise-bg" data-background="/static/img/bg/noise_bg.png"></div>
+        <div class="main-shape" data-background="/static/img/images/main_shape.png"></div>
 
-            <!-- login-area -->
-            <section class="login-area">
-                <div class="container">
-                    <div class="row justify-content-center">
-                        <div class="col-lg-5 col-md-10">
-                            <div class="login-content">
-                                <h3 class="title">Signup your account</h3>
-                                <span>👋 Welcome join! Please enter your details.</span>
-                                <form action="#">
-                                    <div class="form-grp">
-                                        <label for="word">Your Name</label>
-                                        <input type="password" id="word">
-                                    </div>
-                                    <div class="form-grp">
-                                        <label for="email">Your Email</label>
-                                        <input type="email" id="email">
-                                    </div>
-                                    <div class="form-grp">
-                                        <label for="word">Password</label>
-                                        <input type="password" id="word">
-                                    </div>
-                                    <div class="form-grp">
-                                        <label for="word">Repeat Your Password</label>
-                                        <input type="password" id="word">
-                                    </div>
-{#                                    <div class="password-wrap">#}
-{#                                        <div class="form-grp checkbox-grp">#}
-{#                                            <input type="checkbox" id="checkbox" class="form-check-input">#}
-{#                                            <label for="checkbox">Remember for 30 days</label>#}
-{#                                        </div>#}
-{#                                        <button type="reset">Forgot Password</button>#}
-{#                                    </div>#}
-                                    <button type="submit" class="sine-btn">sign up</button>
-                                    <a href="/login">Already have an account? Sign in</a>
-                                </form>
-                            </div>
-                        </div>
-                        <div class="col-lg-7">
-                            <div class="login-right-content-wrap">
-                                <div class="login-right-content-inner">
-                                    <img src="/static/img/images/login_img.png" alt="">
-                                    <h4 class="title">Use / Deploy deep learning Model. Try <span>Sud.DL </span> and start your amazing journey</h4>
+        <!-- login-area -->
+        <section class="login-area">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-5 col-md-10">
+                        <div class="login-content">
+                            <h3 class="title">Signup your account</h3>
+                            <span>👋 Welcome join! Please enter your details.</span>
+                            <form onsubmit="return checkRegister()">
+                                {% csrf_token %}
+                                <div class="form-grp">
+                                    <label for="username">Your Name</label>
+                                    <input type="username" id="username">
                                 </div>
+                                <div class="form-grp">
+                                    <label for="email">Your Email</label>
+                                    <input type="email" id="email">
+                                </div>
+                                <div class="form-grp">
+                                    <label for="password">Password</label>
+                                    <input type="password" id="password">
+                                </div>
+                                <div class="form-grp">
+                                    <label for="re-password">Repeat Your Password</label>
+                                    <input type="re-password" id="re-password">
+                                </div>
+                                <button type="submit" class="sine-btn">sign up</button>
+                                <a href="/login">Already have an account? Sign in</a>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="col-lg-7">
+                        <div class="login-right-content-wrap">
+                            <div class="login-right-content-inner">
+                                <img src="/static/img/images/login_img.png" alt="">
+                                <h4 class="title">Use / Deploy deep learning Model. Try <span>Sud.DL </span> and start
+                                    your amazing journey</h4>
                             </div>
                         </div>
                     </div>
                 </div>
-            </section>
-            <!-- login-area-end -->
+            </div>
+        </section>
+        <!-- login-area-end -->
 
-        </main>
-        <!-- main-area-end -->
+    </main>
+    <!-- main-area-end -->
 
+{% endblock %}
+
+{% block script %}
+    <script>
+        function checkRegister() {
+            let email = $('#email').val()
+            let username = $('#username').val()
+            let pas = $('#password').val()
+            let repas = $('#re-password').val()
+            let csrfmiddlewaretoken = $('input[name=csrfmiddlewaretoken]').val();
+            if (!username.trim()) {
+                $('#modal-warning').modal('show');
+                $('#msg_content').html("Username cannot be empty.");
+                return false;
+            }
+            if (!email.trim()) {
+                $('#modal-warning').modal('show');
+                $('#msg_content').html("Email cannot be empty.");
+                return false;
+            }
+            let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;  // Simple Email Regex Pattern
+            if (!emailPattern.test(email)) {
+                $('#modal-warning').modal('show');
+                $('#msg_content').html("Please provide a valid email.");
+                return false;
+            }
+            if (!pas.trim()) {
+                $('#modal-warning').modal('show');
+                $('#msg_content').html("Password cannot be empty.");
+                return false;
+            }
+            if (pas !== repas) {
+                $('#modal-warning').modal('show')
+                $('#msg_content').html("Two passwords are not same");
+                return false;
+            }
+            AjaxForRegisterHere(email, username, pas, csrfmiddlewaretoken);
+            return false;
+        }
+
+        function AjaxForRegisterHere(email, username, password, csrfmiddlewaretoken) {
+            $.ajax({
+                type: 'post',
+                url: '/RegisterCheck/',
+                data: {
+                    'email': email,
+                    'username': username,
+                    'password': password,
+                    'csrfmiddlewaretoken': csrfmiddlewaretoken
+                },
+                success: function (response) {
+                    switch (response) {
+                        case '0':
+                            $('#modal-warning').modal('show')
+                            $('#msg_content').html("This email already exists");
+                            break;
+                        case '1':
+                            $('#modal-warning').modal('show')
+                            $('#msg_content').html("Register successfully");
+                            window.location.replace("{% url 'login' %}");
+                            break;
+                    }
+                },
+                error: function () {
+                    $('#modal-warning').modal('show')
+                    $('#msg_content').html("Connection error");
+                }
+            })
+        }
+    </script>
 {% endblock %}

@@ -99,6 +99,19 @@
 </header>
 <!-- header-area-end -->
 
+{#模态框#}
+    <div id="modal-warning" class="modal fade" style="display: none" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header"></div>
+                <div class="modal-title"></div>
+                <div class="modal-body" id="msg_content"></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success btn-sm" data-dismiss="modal">OK</button>
+                </div>
+            </div> <!-- / .modal-content -->
+        </div> <!-- / .modal-dialog -->
+    </div>
 {% block body %}
 
 {% endblock %}
@@ -142,5 +155,15 @@
 <script src="/static/js/ajax-form.js"></script>
 <script src="/static/js/wow.min.js"></script>
 <script src="/static/js/main.js"></script>
+<script>
+$(document).ready(function(){
+  $('.modal-footer .btn-success').click(function(){
+    $('#modal-warning').modal('hide');
+  });
+});
+</script>
+
+{% block script %} {% endblock %}
+
 </body>
 </html>
