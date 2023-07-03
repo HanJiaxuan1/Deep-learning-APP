@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # 'app.apps.AppConfig',
+    'django_q',
     'app',
 ]
 
@@ -139,3 +140,20 @@ STATICFILES_DIRS = [
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+Q_CLUSTER = {
+    'name': 'deeplearningapp',
+    'workers': 5,
+    'recycle': 500,
+    'timeout': 90,
+    'compress': True,
+    'cpu_affinity': 1,
+    'save_limit': 250,
+    'queue_limit': 500,
+    'label': 'Django Q',
+    'retry': 120,
+    'bulk': 10,
+    'orm': 'default',
+    'ack_failures': True,
+    'orm_job': True,
+}
