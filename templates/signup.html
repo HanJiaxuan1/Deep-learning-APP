@@ -116,6 +116,10 @@
                             $('#msg_content').html("Register successfully");
                             window.location.replace("{% url 'login' %}");
                             break;
+                        case '2':
+                            $('#modal-warning').modal('show')
+                            $('#msg_content').html("This username already exists");
+                            break;
                     }
                 },
                 error: function () {

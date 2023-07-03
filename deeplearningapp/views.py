@@ -1,9 +1,9 @@
 import pandas as pd
-from django.shortcuts import render,HttpResponse
+from django.shortcuts import render, HttpResponse, redirect
 import pickle
 from transformers import AutoModelForSequenceClassification, AutoTokenizer, \
     TextClassificationPipeline, AutoModelForMaskedLM, AutoModelForSeq2SeqLM
-from app.models import Model,User
+from app.models import Model, User
 from concurrent.futures import ThreadPoolExecutor
 from django.contrib import auth
 from werkzeug.security import generate_password_hash
@@ -16,6 +16,8 @@ def hello(request):
 
 
 def home(request):
+    print(request.user)
+    print(request.user.is_authenticated)
     return render(request, 'header.html')
 
 
@@ -49,11 +51,21 @@ def RegisterCheck(request):
     find_user = User.objects.filter(email=email).first()
     if find_user is not None:
         return HttpResponse("0")
+    # Check if username already exists
+    find_user_by_username = User.objects.filter(username=username).first()
+    if find_user_by_username is not None:
+        return HttpResponse("2")
     password_hash = generate_password_hash(password)
     new_user = User(email=email, username=username, password=password,
                     password_hash=password_hash)
     new_user.save()
     return HttpResponse("1")
+
+
+def logout(request):
+    request.session.pop('uid')
+    auth.logout(request)
+    return redirect('index')
 
 
 def use(request):
@@ -137,16 +149,16 @@ def model_detail(request):
         # print(time.time())
         # ctx['outcome'] = task_result
 
-    #     with open("models/DecisionTree.sav", "rb") as f:
-    #         model = pickle.load(f)
-    #     input1 = input1.split(',')
-    #     input1 = pd.DataFrame([input1], columns=['LIMIT_BAL', 'SEX', 'EDUCATION', 'MARRIAGE', 'AGE', 'PAY_0', 'PAY_2',
-    #                                              'PAY_3', 'PAY_4', 'PAY_2', 'PAY_13', 'PAY_123', 'PAY1', 'PAY_22',
-    #                                              'PAY_31', 'PAY_43', 'PAY_2213', 'PAY_132', 'PAY_1235', 'PAY11',
-    #                                              'PAY_22A', 'PAY_43Q', 'PAY_2213W'
-    #                                              ])
-    #     output = model.predict(input1)
-    #     ctx['outcome'] = output
+        #     with open("models/DecisionTree.sav", "rb") as f:
+        #         model = pickle.load(f)
+        #     input1 = input1.split(',')
+        #     input1 = pd.DataFrame([input1], columns=['LIMIT_BAL', 'SEX', 'EDUCATION', 'MARRIAGE', 'AGE', 'PAY_0', 'PAY_2',
+        #                                              'PAY_3', 'PAY_4', 'PAY_2', 'PAY_13', 'PAY_123', 'PAY1', 'PAY_22',
+        #                                              'PAY_31', 'PAY_43', 'PAY_2213', 'PAY_132', 'PAY_1235', 'PAY11',
+        #                                              'PAY_22A', 'PAY_43Q', 'PAY_2213W'
+        #                                              ])
+        #     output = model.predict(input1)
+        #     ctx['outcome'] = output
 
         # 从hugging face直接调用
         # import requests

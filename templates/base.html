@@ -65,11 +65,24 @@
                                     <li><a href="/about">About Us</a></li>
                                 </ul>
                             </div>
-                            <div class="header-action d-none d-md-block">
-                                <ul class="list-wrap">
-                                    <li class="header-btn"><a href="/login" class="btn">sign up</a></li>
-                                </ul>
-                            </div>
+                            {% if request.user.is_authenticated %}
+                                <div class="navbar-wrap main-menu d-none d-lg-flex">
+                                    <ul class="navigation">
+                                        <li class="active menu-item-has-children"><a href="#">Hi, {{ request.user }}!</a>
+                                            <ul class="sub-menu">
+                                                <li><a href="/profile">Profile</a></li>
+                                                <li><a href="/logout">Logout</a></li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </div>
+                            {% else %}
+                                <div class="header-action d-none d-md-block">
+                                    <ul class="list-wrap">
+                                        <li class="header-btn"><a href="/login" class="btn">sign in</a></li>
+                                    </ul>
+                                </div>
+                            {% endif %}
                         </nav>
                     </div>
 

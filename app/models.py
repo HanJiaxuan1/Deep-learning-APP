@@ -1,16 +1,16 @@
 from django.db import models
 import pickle
 from werkzeug.security import generate_password_hash, check_password_hash
+from django.contrib.auth.models import AbstractUser
 
 
 # Create your models here.
-class User(models.Model):
+class User(AbstractUser):
     uid = models.AutoField(primary_key=True)
-    username = models.CharField(max_length=64)
+    username = models.CharField(max_length=64, unique=True)
     email = models.EmailField(max_length=64, unique=True, db_index=True)
     password_hash = models.CharField(max_length=64, default="123")
     password = models.CharField(max_length=32)
-    last_login = models.DateTimeField(blank=True, null=True)
 
     def verify_password(self, password):
         return check_password_hash(self.password_hash, password)

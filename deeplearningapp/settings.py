@@ -157,3 +157,4 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 #     'ack_failures': True,
 #     'orm_job': True,
 # }
+AUTH_USER_MODEL = 'app.User'
