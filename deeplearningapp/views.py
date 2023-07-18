@@ -1,13 +1,13 @@
-import pandas as pd
 from django.shortcuts import render, HttpResponse, redirect
 import pickle
 from transformers import AutoModelForSequenceClassification, AutoTokenizer, \
-    TextClassificationPipeline, AutoModelForMaskedLM, AutoModelForSeq2SeqLM
+    TextClassificationPipeline, AutoModelForMaskedLM, AutoModelForSeq2SeqLM, AutoModelWithLMHead, pipeline
 from app.models import Model, User
 from concurrent.futures import ThreadPoolExecutor
 from django.contrib import auth
 from werkzeug.security import generate_password_hash
 from django.core.files.storage import FileSystemStorage
+from datetime import date
 
 
 # Create your views here.
@@ -80,8 +80,14 @@ def use(request):
             model_dic['option'] = 1
         elif i.tag == 'option2':
             model_dic['option'] = 2
-        else:
+        elif i.tag == 'option3':
             model_dic['option'] = 3
+        elif i.tag == 'option4':
+            model_dic['option'] = 4
+        elif i.tag == 'option5':
+            model_dic['option'] = 5
+        else:
+            model_dic['option'] = 6
         model_dic['model_id'] = i.model_id
         model_dic['img_id'] = j % 10
         model_dic['name'] = i.model_name
@@ -107,22 +113,51 @@ def call_model(serialized_model, serialized_tokenizer, input1):
     return pipeline(input1)[0]['label']
 
 
-def load_model(model_name, input1):
+def load_model(model_name, task, content, input1):
+    # save_directory = "deeplearningapp/models/" + model_name
+    # dl_model = AutoModelForSeq2SeqLM.from_pretrained(save_directory)
+    # tokenizer = AutoTokenizer.from_pretrained(save_directory)
+    # pipe = pipeline("translation_en_to_ca", model=dl_model, tokenizer=tokenizer)
+    # # pipeline = TextClassificationPipeline(model=dl_model, tokenizer=tokenizer)
+    # # return pipeline(input1)[0]['label']
+    task_dic = {"option1": "text-classification", "option2": "translation",
+                "option3": "text-generation", "option4": "summarization",
+                "option5": "question-answering", "option6": "fill-mask"}
     save_directory = "deeplearningapp/models/" + model_name
-    dl_model = AutoModelForSequenceClassification.from_pretrained(save_directory)
-    tokenizer = AutoTokenizer.from_pretrained(save_directory)
-    pipeline = TextClassificationPipeline(model=dl_model, tokenizer=tokenizer)
-    return pipeline(input1)[0]['label']
+    # dl_model = AutoModelForSeq2SeqLM.from_pretrained(save_directory)
+    # tokenizer = AutoTokenizer.from_pretrained(save_directory)
+    pipe = pipeline(task_dic[task], model=save_directory)
+    if task == "option1":
+        return pipe(input1)[0]['label']
+    elif task == 'option2':
+        return pipe(input1)[0]['translation_text']
+    elif task == 'option3':
+        return pipe(input1)[0]['generated_text']
+    elif task == 'option4':
+        return pipe(input1)[0]['summary_text']
+    elif task == 'option5':
+        return pipe(question=input1, context=content)['answer']
+    else:
+        # return pipe(input1)
+        return pipe(input1)[0]['token_str'] + " -> " + pipe(input1)[0]['sequence']
+    # pipeline = TextClassificationPipeline(model=dl_model, tokenizer=tokenizer)
+    # return pipeline(input1)[0]['label']
 
 
 def model_detail(request):
     model_id = request.GET.get('param')
     model = Model.objects.get(model_id=model_id)
-    ctx = {}
+    ctx = {'tag': model.tag}
     if request.POST:
         input1 = request.POST.get("input")
-        # 在线程池中异步运行预测函数
-        future = executor.submit(load_model, model.model_name, input1)
+        content = None
+        task = model.tag
+        if task == "option5":
+            content = request.POST.get("content")
+            future = executor.submit(load_model, model.model_name, task, content, input1)
+        else:
+            # 在线程池中异步运行预测函数
+            future = executor.submit(load_model, model.model_name, task, None, input1)
         # print(executor._work_queue.empty())
         # a = executor._work_queue.qsize()
         # print(a)
@@ -206,6 +241,7 @@ def model_detail(request):
         # ctx['outcome'] = pipeline(input1)[0]['label']
 
         ctx['input'] = input1
+        ctx['content'] = content
     return render(request, 'model-detail.html', context={"model": model, "ctx": ctx})
 
 
@@ -217,7 +253,15 @@ def upload_model(request):
     if request.method == 'POST':
         files = request.FILES.getlist('files[]')
         model_name = request.POST.get('name')
+        task = request.POST.get('option')
+        background = request.POST.get('background')
+        input_des = request.POST.get('input_des')
+        output_des = request.POST.get('output_des')
+        task_des = request.POST.get('task_des')
+        new_model = Model(tag=task, upload_date=date.today(), background=background,
+                          model_name=model_name, input_des=input_des, output_des=output_des, task_des=task_des)
+        new_model.save()
         for file in files:
-            fs = FileSystemStorage(location='models/'+model_name)
+            fs = FileSystemStorage(location='deeplearningapp/models/'+model_name)
             fs.save(file.name, file)
         return render(request, 'index.html')
