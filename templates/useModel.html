@@ -37,6 +37,15 @@
                                     <li class="nav-item" role="presentation">
                                         <button class="nav-link" id="text-generation-tab" data-bs-toggle="tab" data-bs-target="#text-generation-tab-pane" type="button" role="tab" aria-controls="text-generation-tab-pane" aria-selected="false">Text Generation</button>
                                     </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link" id="summarization-tab" data-bs-toggle="tab" data-bs-target="#summarization-tab-pane" type="button" role="tab" aria-controls="summarization-tab-pane" aria-selected="false">Summarization</button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link" id="question-answering-tab" data-bs-toggle="tab" data-bs-target="#question-answering-tab-pane" type="button" role="tab" aria-controls="question-answering-tab-pane" aria-selected="false">Question Answering</button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link" id="fill-mask-tab" data-bs-toggle="tab" data-bs-target="#fill-mask-tab-pane" type="button" role="tab" aria-controls="fill-mask-tab-pane" aria-selected="false">Fill Mask</button>
+                                    </li>
                                 </ul>
 
                                 <div class="tab-content" id="myTabContent">
@@ -72,7 +81,7 @@
                                                         <div class="col-lg-4 col-md-6 col-sm-10">
                                                             <div class="blog-grid-item">
                                                                 <div class="blog-grid-thumb">
-                                                                    <a href="blog-details.html"><img src="/static/img/blog/blog_img02.jpg" alt=""></a>
+                                                                    <a href="/model-detail/?param={{ item.model_id }}"><img src="/static/img/blog/blog_img0{{ item.img_id }}.jpg" alt=""></a>
                                                                 </div>
                                                                 <div class="blog-grid-content">
                                                                     <span class="date">{{ item.date }}</span>
@@ -95,7 +104,76 @@
                                                         <div class="col-lg-4 col-md-6 col-sm-10">
                                                             <div class="blog-grid-item">
                                                                 <div class="blog-grid-thumb">
-                                                                    <a href="blog-details.html"><img src="/static/img/blog/blog_img02.jpg" alt=""></a>
+                                                                    <a href="/model-detail/?param={{ item.model_id }}"><img src="/static/img/blog/blog_img0{{ item.img_id }}.jpg" alt=""></a>
+                                                                </div>
+                                                                <div class="blog-grid-content">
+                                                                    <span class="date">{{ item.date }}</span>
+                                                                    <h2 class="title" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"><a href="/model-detail/?param={{ item.model_id }}">{{ item.name }}</a></h2>
+                                                                    <p>This model is generally used for {{ item.task_des }}.</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="tab-pane fade" id="summarization-tab-pane" role="tabpanel" aria-labelledby="summarization-tab" tabindex="0">
+                                        <div class="blog-item-wrap">
+                                            <div class="row justify-content-center">
+                                                {% for item in my_list %}
+                                                    {% if item.option == 4 %}
+                                                        <div class="col-lg-4 col-md-6 col-sm-10">
+                                                            <div class="blog-grid-item">
+                                                                <div class="blog-grid-thumb">
+                                                                    <a href="/model-detail/?param={{ item.model_id }}"><img src="/static/img/blog/blog_img0{{ item.img_id }}.jpg" alt=""></a>
+                                                                </div>
+                                                                <div class="blog-grid-content">
+                                                                    <span class="date">{{ item.date }}</span>
+                                                                    <h2 class="title" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"><a href="/model-detail/?param={{ item.model_id }}">{{ item.name }}</a></h2>
+                                                                    <p>This model is generally used for {{ item.task_des }}.</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="tab-pane fade" id="question-answering-tab-pane" role="tabpanel" aria-labelledby="question-answering-tab" tabindex="0">
+                                        <div class="blog-item-wrap">
+                                            <div class="row justify-content-center">
+                                                {% for item in my_list %}
+                                                    {% if item.option == 5 %}
+                                                        <div class="col-lg-4 col-md-6 col-sm-10">
+                                                            <div class="blog-grid-item">
+                                                                <div class="blog-grid-thumb">
+                                                                    <a href="/model-detail/?param={{ item.model_id }}"><img src="/static/img/blog/blog_img0{{ item.img_id }}.jpg" alt=""></a>
+                                                                </div>
+                                                                <div class="blog-grid-content">
+                                                                    <span class="date">{{ item.date }}</span>
+                                                                    <h2 class="title" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"><a href="/model-detail/?param={{ item.model_id }}">{{ item.name }}</a></h2>
+                                                                    <p>This model is generally used for {{ item.task_des }}.</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="tab-pane fade" id="fill-mask-tab-pane" role="tabpanel" aria-labelledby="fill-mask-tab" tabindex="0">
+                                        <div class="blog-item-wrap">
+                                            <div class="row justify-content-center">
+                                                {% for item in my_list %}
+                                                    {% if item.option == 6 %}
+                                                        <div class="col-lg-4 col-md-6 col-sm-10">
+                                                            <div class="blog-grid-item">
+                                                                <div class="blog-grid-thumb">
+                                                                    <a href="/model-detail/?param={{ item.model_id }}"><img src="/static/img/blog/blog_img0{{ item.img_id }}.jpg" alt=""></a>
                                                                 </div>
                                                                 <div class="blog-grid-content">
                                                                     <span class="date">{{ item.date }}</span>

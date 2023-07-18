@@ -28,8 +28,28 @@
                             <div class="blog-input-wrap">
                                 <form action="/upload-model/" method="post" enctype="multipart/form-data">
                                     {% csrf_token %}
+                                    <h3 class="comment-reply-title">Please select the NLP task</h3>
+                                    <input type="radio" name="option" value="option1"> Text Classification <br>
+                                    <input type="radio" name="option" value="option2"> Translation <br>
+                                    <input type="radio" name="option" value="option3"> Text Generation <br>
+                                    <input type="radio" name="option" value="option4"> Summarization <br>
+                                    <input type="radio" name="option" value="option5"> Question Answering <br>
+                                    <input type="radio" name="option" value="option6"> Fill Mask <br>
+                                    <p><br></p>
+                                    <h3 class="comment-reply-title">Please describe the task</h3>
+                                    <input type="text" name="task_des">
+                                    <p><br></p>
                                     <h3 class="comment-reply-title">Please input the model name</h3>
                                     <input type="text" name="name">
+                                    <p><br></p>
+                                    <h3 class="comment-reply-title">Please input the background of model</h3>
+                                    <input type="text" name="background">
+                                    <p><br></p>
+                                    <h3 class="comment-reply-title">Please input the input description of model</h3>
+                                    <input type="text" name="input_des">
+                                    <p><br></p>
+                                    <h3 class="comment-reply-title">Please input the output description of model</h3>
+                                    <input type="text" name="output_des">
                                     <p><br></p>
                                     <h3 class="comment-reply-title">Please upload the model files</h3>
                                     <input type="file" name="files[]" multiple>
