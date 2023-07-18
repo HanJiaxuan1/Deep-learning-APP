@@ -26,42 +26,43 @@
         <section class="mt-150">
             <div class="container custom-container">
                 <div class="row" style="display: flex; justify-content: center;">
-                    <div class="col-lg-3 col-md-4">
-                        <!-- Profile Image -->
-                        <div class="profile-image mx-auto">
-                            <img src="/static/img/cat.jpg" alt="Profile Image" class="img-fluid rounded-circle">
-                            <!-- upload pic -->
-                            <div class="custom-file-upload mt-3" style="display: flex; justify-content: center">
-                                <input type="file" id="avatar" name="avatar" accept="image/png, image/jpeg"
-                                       class="file-input"/>
-                                <button type="button" class="file-upload-button"
-                                        onclick="document.getElementById('avatar').click()">Upload Image
-                                </button>
+                    {#                    <div class="col-lg-3 col-md-4">#}
+                    {#                        <!-- Profile Image -->#}
+                    {#                        <div class="profile-image mx-auto">#}
+                    {#                            <img src="/static/img/cat.jpg" alt="Profile Image" class="img-fluid rounded-circle">#}
+                    {#                            <!-- upload pic -->#}
+                    {#                            <div class="custom-file-upload mt-3" style="display: flex; justify-content: center">#}
+                    {#                                <input type="file" id="avatar" name="avatar" accept="image/png, image/jpeg"#}
+                    {#                                       class="file-input"/>#}
+                    {#                                <button type="button" class="file-upload-button" id="edit_avatar"#}
+                    {#                                        onclick="document.getElementById('avatar').click()">Upload Image#}
+                    {#                                </button>#}
+                    {#                                <button class="btn btn-sm btn-light border-0" id="edit_avatar">Edit Photo</button>#}
+                    {#                            </div>#}
+                    {#                        </div>#}
+                    {#                    </div>#}
+                    <div class="col-lg-5 col-md-7">
+                        <!-- Profile Form -->
+                        {% csrf_token %}
+                        <h2>Personal Information</h2>
+                        <div style="display: flex; justify-content: space-between;">
+                            <div>
+                                <label for="name">Name:</label>
+                                <input type="text" id="name" name="name" class="form-control"
+                                       value="{{ user.username }}" disabled>
+                            </div>
+                            <div>
+                                <label for="email">Email:</label>
+                                <input type="email" id="email" name="email" class="form-control"
+                                       value="{{ user.email }}" disabled>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-lg-4 col-md-3">
-                        <!-- Profile Form -->
-                        <form action="/update-profile" method="post" class="mt-3">
-                            <div class="form-group">
-                                <label for="name">Name:</label>
-                                <input type="text" id="name" name="name" class="form-control">
-                            </div>
 
-                            <div class="form-group">
-                                <label for="email">Email:</label>
-                                <input type="email" id="email" name="email" class="form-control">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="password">Password:</label>
-                                <input type="password" id="password" name="password" class="form-control">
-                            </div>
-                            <br>
-                            <div style="display: flex; justify-content: center;">
-                                <button type="submit" class="btn btn-primary">保存修改</button>
-                            </div>
-                        </form>
+                        <br>
+                        <div style="display: flex; justify-content: center;">
+                            <button class="btn btn-primary edit">Edit</button>
+                            <button class="btn btn-primary save" style="display:none;">Save</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -415,81 +416,6 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="col-lg-4 col-md-6 col-sm-10">
-                                                            <div class="blog-grid-item">
-                                                                <div class="blog-grid-thumb">
-                                                                    <a href="blog-details.html"><img
-                                                                            src="/static/img/blog/blog_img03.jpg"
-                                                                            alt=""></a>
-                                                                </div>
-                                                                <div class="blog-grid-content">
-                                                                    <span class="date">January 25, 2023</span>
-                                                                    <h2 class="title"><a href="blog-details.html">Model
-                                                                        2</a></h2>
-                                                                    <p>Model 2 is generally used to analyze emotion.</p>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-lg-4 col-md-6 col-sm-10">
-                                                            <div class="blog-grid-item">
-                                                                <div class="blog-grid-thumb">
-                                                                    <a href="blog-details.html"><img
-                                                                            src="/static/img/blog/blog_img04.jpg"
-                                                                            alt=""></a>
-                                                                </div>
-                                                                <div class="blog-grid-content">
-                                                                    <span class="date">June 17, 2022</span>
-                                                                    <h2 class="title"><a href="blog-details.html">Model
-                                                                        3</a></h2>
-                                                                    <p>Model 3 is generally used to classify news.</p>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-lg-4 col-md-6 col-sm-10">
-                                                            <div class="blog-grid-item">
-                                                                <div class="blog-grid-thumb">
-                                                                    <a href="blog-details.html"><img
-                                                                            src="/static/img/blog/blog_img05.jpg"
-                                                                            alt=""></a>
-                                                                </div>
-                                                                <div class="blog-grid-content">
-                                                                    <span class="date">August 31, 2023</span>
-                                                                    <h2 class="title"><a href="blog-details.html">Model
-                                                                        4</a></h2>
-                                                                    <p>Model 4 is generally used to...</p>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-lg-4 col-md-6 col-sm-10">
-                                                            <div class="blog-grid-item">
-                                                                <div class="blog-grid-thumb">
-                                                                    <a href="blog-details.html"><img
-                                                                            src="/static/img/blog/blog_img06.jpg"
-                                                                            alt=""></a>
-                                                                </div>
-                                                                <div class="blog-grid-content">
-                                                                    <span class="date">June 2, 2020</span>
-                                                                    <h2 class="title"><a href="blog-details.html">Model
-                                                                        5</a></h2>
-                                                                    <p>Model 5 is generally used to...</p>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-lg-4 col-md-6 col-sm-10">
-                                                            <div class="blog-grid-item">
-                                                                <div class="blog-grid-thumb">
-                                                                    <a href="blog-details.html"><img
-                                                                            src="/static/img/blog/blog_img07.jpg"
-                                                                            alt=""></a>
-                                                                </div>
-                                                                <div class="blog-grid-content">
-                                                                    <span class="date">June 5, 2019</span>
-                                                                    <h2 class="title"><a href="blog-details.html">Model
-                                                                        6</a></h2>
-                                                                    <p>Model 6 is generally used to...</p>
-                                                                </div>
-                                                            </div>
-                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -701,4 +627,56 @@
 
     </main>
     <!-- main-area-end -->
+{% endblock %}
+
+{% block script %}
+    <script>
+        let username = document.getElementById('name');
+        let email = document.getElementById('email');
+        let csrfmiddlewaretoken = $('input[name=csrfmiddlewaretoken]').val();
+        console.log("1")
+        $(function () {
+                $("input").prop('disabled', true)
+
+                $(".edit").click(function () {
+                    $('html').addClass('active');
+                    $('input').prop('disabled', false);
+                    $(this).hide();
+                    $(".save").show();
+                });
+
+                $('.save').click(function () {
+                    saveProfile()
+                    $('html').removeClass('active');
+                    $('input').prop('disabled', true);
+                    $(this).hide();
+                    $(".edit").show();
+                });
+
+
+                function saveProfile() {
+                    $.ajax({
+                        type: 'post',
+                        url: '/modify_profile/',
+                        data: {
+                            'username': username.value, 'email': email.value, 'csrfmiddlewaretoken': csrfmiddlewaretoken
+                        },
+                        success: function (response) {
+                            if (response == 0) {
+                                $('#modal-warning').modal('show')
+                                $('#msg_content').html("Username has been used!");
+                            } else if (response == 1) {
+                                $('#modal-warning').modal('show')
+                                $('#msg_content').html("Saved successfully");
+                            }
+                        },
+                        error: function () {
+                            $('#modal-warning').modal('show')
+                            $('#msg_content').html("Connection error");
+                        }
+                    });
+                }
+            }
+        );
+    </script>
 {% endblock %}

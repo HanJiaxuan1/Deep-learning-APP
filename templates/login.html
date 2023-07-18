@@ -43,6 +43,13 @@
             </div>
         </section>
         <!-- login-area-end -->
+        {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
 
     </main>
     <!-- main-area-end -->
@@ -65,11 +72,11 @@
                 $('#msg_content').html("Password cannot be empty.");
                 return false;
             }
-            AjaxForLoginHere(email, password,csrfmiddlewaretoken);
+            AjaxForLoginHere(email, password, csrfmiddlewaretoken);
             return false;
         }
 
-        function AjaxForLoginHere(email, password,csrfmiddlewaretoken) {
+        function AjaxForLoginHere(email, password, csrfmiddlewaretoken) {
             $.ajax({
                 type: 'post',
                 url: '/LoginCheck/',
@@ -91,5 +98,14 @@
                 }
             })
         }
+
+        $(document).ready(function () {
+            let alert_message = "{{ alert_message }}";
+            if (alert_message) {
+                $('#msg_content').html(alert_message);
+                $('#modal-warning').modal('show');
+            }
+        });
+
     </script>
 {% endblock %}

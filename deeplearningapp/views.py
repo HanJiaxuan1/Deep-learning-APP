@@ -2,13 +2,15 @@ import pandas as pd
 from django.shortcuts import render, HttpResponse, redirect
 import pickle
 from transformers import AutoModelForSequenceClassification, AutoTokenizer, \
-    TextClassificationPipeline, AutoModelForMaskedLM, AutoModelForSeq2SeqLM
+    TextClassificationPipeline, AutoModelForMaskedLM, AutoModelForSeq2SeqLM, AutoModelForCausalLM
+from transformers import pipeline
 from app.models import Model, User
 from concurrent.futures import ThreadPoolExecutor
 from django.contrib import auth
 from werkzeug.security import generate_password_hash
 from django.core.files.storage import FileSystemStorage
-
+from django.urls import reverse
+from django.contrib import messages
 
 # Create your views here.
 def hello(request):
@@ -22,6 +24,10 @@ def home(request):
 
 
 def deployment(request):
+    context = {}
+    if 'uid' not in request.session.keys():
+        context['alert_message'] = 'Please log in to upload your models.'
+        return render(request, 'login.html', context)
     return render(request, 'deployment.html')
 
 
@@ -38,9 +44,12 @@ def LoginCheck(request):
     password = request.POST.get('password')
     find_user = User.objects.filter(email=email).first()
     if find_user is None or find_user.verify_password(password) is False:
+        print(find_user.password)
+        print(password)
         return HttpResponse("0")
     request.session["uid"] = find_user.uid
     auth.login(request, find_user)
+    print("1")
     return HttpResponse("1")
 
 
@@ -109,6 +118,10 @@ def call_model(serialized_model, serialized_tokenizer, input1):
 
 def load_model(model_name, input1):
     save_directory = "deeplearningapp/models/" + model_name
+    # dl_model = AutoModelForCausalLM.from_pretrained(save_directory)
+    # tokenizer = AutoTokenizer.from_pretrained(save_directory)
+    # pipe = pipeline(tokenizer=tokenizer, model=dl_model)
+    # return pipe(input1)[0]['label']
     dl_model = AutoModelForSequenceClassification.from_pretrained(save_directory)
     tokenizer = AutoTokenizer.from_pretrained(save_directory)
     pipeline = TextClassificationPipeline(model=dl_model, tokenizer=tokenizer)
@@ -210,7 +223,30 @@ def model_detail(request):
 
 
 def profile(request):
-    return render(request, 'profile.html')
+    if 'uid' not in request.session.keys():
+        return redirect(reverse('login'))
+    user = User.objects.get(uid=request.session['uid'])
+    my_model = Model.objects.filter(uid=request.session['uid']).all()
+    # like_note = UserlikeNote.objects.filter(user_id=request.session['uid']).all()
+    return render(request, 'profile.html', {'user': user, 'my_model': my_model})
+
+
+def modify_profile(request):
+    if 'uid' not in request.session.keys():
+        return redirect(reverse('login'))
+    user = User.objects.get(uid=request.session['uid'])
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        check_user = User.objects.filter(username=username).first()
+        if check_user is None or user.uid == check_user.uid:
+            username = request.POST.get('username')
+            email = request.POST.get('email')
+            user.username = username
+            user.email = email
+            user.save()
+            print("user.save()")
+            return HttpResponse(1)
+    return HttpResponse(0)
 
 
 def upload_model(request):
@@ -220,4 +256,6 @@ def upload_model(request):
         for file in files:
             fs = FileSystemStorage(location='models/'+model_name)
             fs.save(file.name, file)
-        return render(request, 'index.html')
+        return render(request, 'header.html')
+
+

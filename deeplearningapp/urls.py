@@ -36,4 +36,6 @@ urlpatterns = [
     path('model-add-db/', upload_model.add_model),
     path('deployment/', views.deployment),
     path('upload-model/', views.upload_model),
+    path('modify_profile/', views.modify_profile),
+
 ]
