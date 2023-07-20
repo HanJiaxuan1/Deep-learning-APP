@@ -3,8 +3,8 @@ from django.shortcuts import render, HttpResponse, redirect
 import pickle
 from transformers import AutoModelForSequenceClassification, AutoTokenizer, \
     TextClassificationPipeline, AutoModelForMaskedLM, AutoModelForSeq2SeqLM, AutoModelForCausalLM
-from transformers import pipeline
-    TextClassificationPipeline, AutoModelForMaskedLM, AutoModelForSeq2SeqLM, AutoModelWithLMHead, pipeline
+from transformers import pipeline, \
+    TextClassificationPipeline, AutoModelForMaskedLM, AutoModelForSeq2SeqLM, AutoModelWithLMHead
 from app.models import Model, User
 from concurrent.futures import ThreadPoolExecutor
 from django.contrib import auth
@@ -46,10 +46,10 @@ def LoginCheck(request):
     email = request.POST.get('email')
     password = request.POST.get('password')
     find_user = User.objects.filter(email=email).first()
-    if find_user is None or find_user.verify_password(password) is False:
-        print(find_user.password)
-        print(password)
+    if find_user is None:
         return HttpResponse("0")
+    if find_user.verify_password(password) is False:
+        return HttpResponse("2")
     request.session["uid"] = find_user.uid
     auth.login(request, find_user)
     print("1")

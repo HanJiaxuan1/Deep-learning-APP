@@ -85,10 +85,14 @@
                     switch (response) {
                         case '0':
                             $('#modal-warning').modal('show')
-                            $('#msg_content').html("The password or the email is wrong");
+                            $('#msg_content').html("User does not exist. Please register an account.");
                             break;
                         case '1':
                             window.location.replace("{% url 'index' %}");
+                            break;
+                        case '2':
+                            $('#modal-warning').modal('show')
+                            $('#msg_content').html("The password or the email is wrong");
                             break;
                     }
                 },
