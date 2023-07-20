@@ -286,19 +286,31 @@ def modify_profile(request):
 
 def upload_model(request):
     if request.method == 'POST':
+        task_dic = {"option1": "text-classification", "option2": "translation",
+                    "option3": "text-generation", "option4": "summarization",
+                    "option5": "question-answering", "option6": "fill-mask"}
         files = request.FILES.getlist('files[]')
         model_name = request.POST.get('name')
         task = request.POST.get('option')
         background = request.POST.get('background')
         input_des = request.POST.get('input_des')
         output_des = request.POST.get('output_des')
-        task_des = request.POST.get('task_des')
+        task_des = task_dic[task]
         new_model = Model(tag=task, upload_date=date.today(), background=background,
                           model_name=model_name, input_des=input_des, output_des=output_des, task_des=task_des)
         new_model.save()
+        parent_model = request.POST.get('tokenizer')
+        print(parent_model)
+        if parent_model != "":
+            tokenizer = AutoTokenizer.from_pretrained(parent_model)
+            tokenizer.save_pretrained('deeplearningapp/models/' + model_name)
         for file in files:
             fs = FileSystemStorage(location='deeplearningapp/models/'+model_name)
             fs.save(file.name, file)
         return render(request, 'header.html')
 
 
+
+
+def test(request):
+    return render(request, 'work.html')

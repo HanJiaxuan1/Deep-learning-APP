@@ -38,4 +38,5 @@ urlpatterns = [
     path('upload-model/', views.upload_model),
     path('modify_profile/', views.modify_profile),
 
+    path('test-deployment/', views.test)
 ]
