@@ -15,6 +15,12 @@ from django.contrib import messages
 from datetime import date
 
 
+# # Load model directly
+# tokenizer = AutoTokenizer.from_pretrained("rasta/distilbert-base-uncased-finetuned-fashion")
+# model = AutoModelForSequenceClassification.from_pretrained("rasta/distilbert-base-uncased-finetuned-fashion")
+# save_directory = "deeplearningapp/models/distilbert-base-uncased-finetuned-fashion"  # 要保存模型的目录路径
+# model.save_pretrained(save_directory)
+
 # Create your views here.
 def hello(request):
     return render(request, 'index.html')
@@ -262,7 +268,6 @@ def profile(request):
         return redirect(reverse('login'))
     user = User.objects.get(uid=request.session['uid'])
     my_model = Model.objects.filter(uid=request.session['uid']).all()
-    # like_note = UserlikeNote.objects.filter(user_id=request.session['uid']).all()
     return render(request, 'profile.html', {'user': user, 'my_model': my_model})
 
 
@@ -286,6 +291,7 @@ def modify_profile(request):
 
 def upload_model(request):
     if request.method == 'POST':
+        user = User.objects.get(uid=request.session['uid'])
         task_dic = {"option1": "text-classification", "option2": "translation",
                     "option3": "text-generation", "option4": "summarization",
                     "option5": "question-answering", "option6": "fill-mask"}
@@ -295,9 +301,13 @@ def upload_model(request):
         background = request.POST.get('background')
         input_des = request.POST.get('input_des')
         output_des = request.POST.get('output_des')
+        # 检查 model_name 是否已经存在
+        if Model.objects.filter(model_name=model_name).exists():
+            return HttpResponse(0)
+
         task_des = task_dic[task]
         new_model = Model(tag=task, upload_date=date.today(), background=background,
-                          model_name=model_name, input_des=input_des, output_des=output_des, task_des=task_des)
+                          model_name=model_name, uid=user, input_des=input_des, output_des=output_des, task_des=task_des)
         new_model.save()
         parent_model = request.POST.get('tokenizer')
         print(parent_model)
@@ -307,9 +317,8 @@ def upload_model(request):
         for file in files:
             fs = FileSystemStorage(location='deeplearningapp/models/'+model_name)
             fs.save(file.name, file)
-        return render(request, 'header.html')
-
-
+        return HttpResponse(1)
+        # return render(request, 'profile.html')
 
 
 def test(request):

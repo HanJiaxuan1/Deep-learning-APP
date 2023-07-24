@@ -2,134 +2,234 @@
 {% block title %} Sub.DL - Use Model {% endblock %}
 {% block body %}
 
-        <!-- main-area -->
-        <main class="main-content">
-            <div class="noise-bg" data-background="/static/img/bg/noise_bg.png"></div>
-            <div class="main-shape" data-background="/static/img/images/main_shape.png"></div>
+    <!-- main-area -->
+    <main class="main-content">
+        <div class="noise-bg" data-background="/static/img/bg/noise_bg.png"></div>
+        <div class="main-shape" data-background="/static/img/images/main_shape.png"></div>
 
-            <!-- breadcrumb-area -->
-            <section class="breadcrumb-area">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="breadcrumb-content">
-                                <h2 class="title">Start to <span>Deploy Models</span></h2>
-                            </div>
+        <!-- breadcrumb-area -->
+        <section class="breadcrumb-area">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="breadcrumb-content">
+                            <h2 class="title">Start to <span>Deploy Models</span></h2>
                         </div>
                     </div>
                 </div>
-            </section>
-            <!-- breadcrumb-area-end -->
+            </div>
+        </section>
+        <!-- breadcrumb-area-end -->
 
-            <!-- work-area -->
-            <section class="work-area">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <form action="/upload-model/" method="post" enctype="multipart/form-data">
-                                <div class="work-item" data-aos="fade-up" data-aos-anchor-placement="top-bottom">
-                                    <div class="work-thumb">
-                                        {% csrf_token %}
-                                        <input type="radio" name="option" value="option1"> Text Classification <br>
-                                        <input type="radio" name="option" value="option2"> Translation <br>
-                                        <input type="radio" name="option" value="option3"> Text Generation <br>
-                                        <input type="radio" name="option" value="option4"> Summarization <br>
-                                        <input type="radio" name="option" value="option5"> Question Answering <br>
-                                        <input type="radio" name="option" value="option6"> Fill Mask <br>
-                                    </div>
-                                    <div class="work-content">
-                                        <span>Step 1</span>
-                                        <h2 class="title">Select your NLP task</h2>
-                                        <p>Select the NLP task your model solves. You can find this model and use it in the appropriate task screen after deployment is complete. </p>
-                                    </div>
+        <!-- work-area -->
+        <section class="work-area">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <form onsubmit="return upload()">
+                            <div class="work-item" data-aos="fade-up" data-aos-anchor-placement="top-bottom">
+                                <div class="work-thumb">
+                                    {% csrf_token %}
+                                    <input type="radio" name="option" value="option1"> Text Classification <br>
+                                    <input type="radio" name="option" value="option2"> Translation <br>
+                                    <input type="radio" name="option" value="option3"> Text Generation <br>
+                                    <input type="radio" name="option" value="option4"> Summarization <br>
+                                    <input type="radio" name="option" value="option5"> Question Answering <br>
+                                    <input type="radio" name="option" value="option6"> Fill Mask <br>
                                 </div>
-
-                                <div class="work-item" data-aos="fade-up" data-aos-anchor-placement="top-bottom">
-                                    <div class="work-thumb">
-                                        {% csrf_token %}
-                                        <h3 class="comment-reply-title" style="font-size: 18px;">Model Name</h3>
-                                        <p>Give your model a unique name!</p>
-                                        <input type="text" name="name">
-                                        <p><br></p>
-                                        <h3 class="comment-reply-title" style="font-size: 18px;">Background</h3>
-                                        <p>Describe the background of your model. For example, what model does it get fine-tuned from, what is the main task it is designed to solve, and etc.</p>
-                                        <input type="text" name="background">
-                                        <p><br></p>
-                                        <h3 class="comment-reply-title" style="font-size: 18px;">Input of Model</h3>
-                                        <p>What inputs your model requires. (eg: A Sentence: I love you)</p>
-                                        <input type="text" name="input_des">
-                                        <p><br></p>
-                                        <h3 class="comment-reply-title" style="font-size: 18px;">Expected Output</h3>
-                                        <p>What output your model will give. (eg: A Label: Love)</p>
-                                        <input type="text" name="output_des">
-                                    </div>
-                                    <div class="work-content">
-                                        <span>Step 2</span>
-                                        <h2 class="title">Fill in the information of the model</h2>
-                                        <p>Please provide the basic information of your model. This information will be displayed on your model's detail page to inform others about the model's features and how to use it.</p>
-                                    </div>
+                                <div class="work-content">
+                                    <span>Step 1</span>
+                                    <h2 class="title">Select your NLP task</h2>
+                                    <p>Select the NLP task your model solves. You can find this model and use it in the
+                                        appropriate task screen after deployment is complete. </p>
                                 </div>
+                            </div>
 
-                                <div class="work-item" data-aos="fade-up" data-aos-anchor-placement="top-bottom">
-                                    <div class="work-thumb" style="text-align: center;">
-                                        <div class="blog-tav-wrap">
-                                            <ul class="nav nav-tabs" id="myTab" role="tablist">
-                                                <li class="nav-item" role="presentation">
-                                                    <button class="nav-link active" id="all-files-tab" data-bs-toggle="tab" data-bs-target="#all-files-tab-pane" type="button"  role="tab" aria-controls="all-files-tab-pane" aria-selected="true">Upload All Files</button>
-                                                </li>
-                                                <li class="nav-item" role="presentation">
-                                                    <button class="nav-link" id="model-file-tab" data-bs-toggle="tab" data-bs-target="#model-file-pane" type="button" role="tab" aria-controls="model-file-tab-pane" aria-selected="false">Upload Only Model Files</button>
-                                                </li>
-                                            </ul>
+                            <div class="work-item" data-aos="fade-up" data-aos-anchor-placement="top-bottom">
+                                <div class="work-thumb">
+                                    {% csrf_token %}
+                                    <h3 class="comment-reply-title" style="font-size: 18px;">Model Name</h3>
+                                    <p>Give your model a unique name!</p>
+                                    <input type="text" name="name">
+                                    <p><br></p>
+                                    <h3 class="comment-reply-title" style="font-size: 18px;">Background</h3>
+                                    <p>Describe the background of your model. For example, what model does it get
+                                        fine-tuned from, what is the main task it is designed to solve, and etc.</p>
+                                    <input type="text" name="background">
+                                    <p><br></p>
+                                    <h3 class="comment-reply-title" style="font-size: 18px;">Input of Model</h3>
+                                    <p>What inputs your model requires. (eg: A Sentence: I love you)</p>
+                                    <input type="text" name="input_des">
+                                    <p><br></p>
+                                    <h3 class="comment-reply-title" style="font-size: 18px;">Expected Output</h3>
+                                    <p>What output your model will give. (eg: A Label: Love)</p>
+                                    <input type="text" name="output_des">
+                                </div>
+                                <div class="work-content">
+                                    <span>Step 2</span>
+                                    <h2 class="title">Fill in the information of the model</h2>
+                                    <p>Please provide the basic information of your model. This information will be
+                                        displayed on your model's detail page to inform others about the model's
+                                        features and how to use it.</p>
+                                </div>
+                            </div>
 
-                                            <div class="tab-content" id="myTabContent">
-                                                <div class="tab-pane fade show active" id="all-files-tab-pane" role="tabpanel" aria-labelledby="all-files-tab" tabindex="0">
-                                                    {% csrf_token %}
-                                                    <h3 class="comment-reply-title" style="font-size: 18px; text-align: center;">Please upload all files</h3>
-                                                    <br>
-                                                    <input type="file" name="files[]" multiple>
-                                                </div>
+                            <div class="work-item" data-aos="fade-up" data-aos-anchor-placement="top-bottom">
+                                <div class="work-thumb" style="text-align: center;">
+                                    <div class="blog-tav-wrap">
+                                        <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                            <li class="nav-item" role="presentation">
+                                                <button class="nav-link active" id="all-files-tab" data-bs-toggle="tab"
+                                                        data-bs-target="#all-files-tab-pane" type="button" role="tab"
+                                                        aria-controls="all-files-tab-pane" aria-selected="true">Upload
+                                                    All Files
+                                                </button>
+                                            </li>
+                                            <li class="nav-item" role="presentation">
+                                                <button class="nav-link" id="model-file-tab" data-bs-toggle="tab"
+                                                        data-bs-target="#model-file-pane" type="button" role="tab"
+                                                        aria-controls="model-file-tab-pane" aria-selected="false">Upload
+                                                    Only Model Files
+                                                </button>
+                                            </li>
+                                        </ul>
 
-                                                <div class="tab-pane fade" id="model-file-pane" role="tabpanel" aria-labelledby="model-file-tab" tabindex="0">
-                                                    {% csrf_token %}
-                                                    <p>Please tell us which model you fine-tuned your model from</p>
-                                                    <input type="text" name="tokenizer">
-                                                    <br>
-                                                    <br>
-                                                    <br>
-                                                    <h3 class="comment-reply-title" style="font-size: 18px; text-align: center;">Please upload model files</h3>
-                                                    <br>
-                                                    <input type="file" name="files[]" multiple>
-                                                </div>
+                                        <div class="tab-content" id="myTabContent">
+                                            <div class="tab-pane fade show active" id="all-files-tab-pane"
+                                                 role="tabpanel" aria-labelledby="all-files-tab" tabindex="0">
+                                                {% csrf_token %}
+                                                <h3 class="comment-reply-title"
+                                                    style="font-size: 18px; text-align: center;">Please upload all
+                                                    files</h3>
+                                                <br>
+                                                <input type="file" name="files[]" multiple>
+                                            </div>
+
+                                            <div class="tab-pane fade" id="model-file-pane" role="tabpanel"
+                                                 aria-labelledby="model-file-tab" tabindex="0">
+                                                {% csrf_token %}
+                                                <p>Please tell us which model you fine-tuned your model from</p>
+                                                <input type="text" name="tokenizer">
+                                                <br>
+                                                <br>
+                                                <br>
+                                                <h3 class="comment-reply-title"
+                                                    style="font-size: 18px; text-align: center;">Please upload model
+                                                    files</h3>
+                                                <br>
+                                                <input type="file" name="files[]" multiple>
                                             </div>
                                         </div>
                                     </div>
-
-                                    <div class="work-content">
-                                        <span>Step 3</span>
-                                        <h2 class="title">Upload Files</h2>
-                                        <p>Provide us with model file, config file, tokenizer file, and vocab file.</p>
-                                    </div>
                                 </div>
 
-                                <div class="work-item" data-aos="fade-up" data-aos-anchor-placement="top-bottom">
-                                    <div class="work-thumb" style="text-align: center;">
-                                        <p>Now just complete your model deployment!</p>
-                                        <button type="submit" class="btn">Deploy Now!</button>
-                                    </div>
-                                    <div class="work-content">
-                                        <span>Step 4</span>
-                                        <h2 class="title">Congratulations! <br>We did it!</h2>
-                                        <p>In a few easy and quick steps, you have completed model deployment!</p>
-                                    </div>
+                                <div class="work-content">
+                                    <span>Step 3</span>
+                                    <h2 class="title">Upload Files</h2>
+                                    <p>Provide us with model file, config file, tokenizer file, and vocab file.</p>
                                 </div>
-                            </form>
-                        </div>
+                            </div>
+
+                            <div class="work-item" data-aos="fade-up" data-aos-anchor-placement="top-bottom">
+                                <div class="work-thumb" style="text-align: center;">
+                                    <p>Now just complete your model deployment!</p>
+                                    <button type="submit" class="btn">Deploy Now!</button>
+                                </div>
+                                <div class="work-content">
+                                    <span>Step 4</span>
+                                    <h2 class="title">Congratulations! <br>We did it!</h2>
+                                    <p>In a few easy and quick steps, you have completed model deployment!</p>
+                                </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
-            </section>
-            <!-- work-area-end -->
+            </div>
+        </section>
+        <!-- work-area-end -->
 
-        </main>
-        <!-- main-area-end -->
+    </main>
+    <!-- main-area-end -->
 {% endblock %}
+{% block script %}
+    <script>
+        function upload() {
+            let name = $('input[name="name"]').val();
+            let background = $('input[name="background"]').val();
+            let input_des = $('input[name="input_des"]').val();
+            let output_des = $('input[name="output_des"]').val();
+            let csrfmiddlewaretoken = $('input[name=csrfmiddlewaretoken]').val();
+            let option = $('input[name="option"]:checked').val();
+            let files = $('input[name="files[]"]')[0].files;
+            let tokenizer = $('input[name="tokenizer"]').val();
+
+            // Checking for empty inputs
+            if (!option) {
+                alert("Please select an NLP task for your model.");
+                return false;
+            }
+
+            if (!name || name.trim() === '') {
+                alert("Please provide a name for your model.");
+                return false;
+            }
+
+            if (!background || background.trim() === '') {
+                alert("Please provide a background for your model.");
+                return false;
+            }
+
+            if (!input_des || input_des.trim() === '') {
+                alert("Please provide input descriptions for your model.");
+                return false;
+            }
+
+            if (!output_des || output_des.trim() === '') {
+                alert("Please provide output descriptions for your model.");
+                return false;
+            }
+
+            if (files.length === 0) {
+                alert("Please upload files for your model.");
+                return false;
+            }
+            upload_model(name, background, input_des, output_des, option, csrfmiddlewaretoken, tokenizer, files);
+            return false;
+        }
+
+        function upload_model(name, background, input_des, output_des, option, csrfmiddlewaretoken, tokenizer, files) {
+            let data = new FormData();
+            data.append('name', name);
+            data.append('background', background);
+            data.append('input_des', input_des);
+            data.append('output_des', output_des);
+            data.append('option', option);
+            data.append('csrfmiddlewaretoken', csrfmiddlewaretoken);
+            data.append('tokenizer', tokenizer);
+            for (var i = 0; i < files.length; i++) {
+                data.append('files[]', files[i]);
+            }
+            $.ajax({
+                type: 'post',
+                url: '/upload_model/',
+                data: data,
+                contentType: false, // jQuery不应该设置Content-Type请求头
+                processData: false, // jQuery不应该将数据转为查询字符串
+                success: function (response) {
+                    if (response == 0) {
+                        $('#modal-warning').modal('show')
+                        $('#msg_content').html("Model name already exists! Please change your model name");
+                    } else if (response == 1) {
+                        $('#modal-warning').modal('show')
+                        $('#msg_content').html("Saved successfully! You can check your upload models in profile page.");
+                    }
+                },
+                error: function () {
+                    $('#modal-warning').modal('show')
+                    $('#msg_content').html("Connection error");
+                }
+            });
+        }
+    </script>
+{% endblock %}
+
