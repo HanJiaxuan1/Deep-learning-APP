@@ -13,13 +13,11 @@ from django.core.files.storage import FileSystemStorage
 from django.urls import reverse
 from django.contrib import messages
 from datetime import date
+from . import load
+import docker
+import os
+from django.conf import settings
 
-
-# # Load model directly
-# tokenizer = AutoTokenizer.from_pretrained("rasta/distilbert-base-uncased-finetuned-fashion")
-# model = AutoModelForSequenceClassification.from_pretrained("rasta/distilbert-base-uncased-finetuned-fashion")
-# save_directory = "deeplearningapp/models/distilbert-base-uncased-finetuned-fashion"  # 要保存模型的目录路径
-# model.save_pretrained(save_directory)
 
 # Create your views here.
 def hello(request):
@@ -124,26 +122,11 @@ def about(request):
 executor = ThreadPoolExecutor(max_workers=50)
 
 
-def call_model(serialized_model, serialized_tokenizer, input1):
-    dl_model = pickle.loads(serialized_model)
-    tokenizer = pickle.loads(serialized_tokenizer)
-    pipeline = TextClassificationPipeline(model=dl_model, tokenizer=tokenizer)
-    return pipeline(input1)[0]['label']
-
-
 def load_model(model_name, task, content, input1):
-    # save_directory = "deeplearningapp/models/" + model_name
-    # dl_model = AutoModelForSeq2SeqLM.from_pretrained(save_directory)
-    # tokenizer = AutoTokenizer.from_pretrained(save_directory)
-    # pipe = pipeline("translation_en_to_ca", model=dl_model, tokenizer=tokenizer)
-    # # pipeline = TextClassificationPipeline(model=dl_model, tokenizer=tokenizer)
-    # # return pipeline(input1)[0]['label']
     task_dic = {"option1": "text-classification", "option2": "translation",
                 "option3": "text-generation", "option4": "summarization",
                 "option5": "question-answering", "option6": "fill-mask"}
-    save_directory = "deeplearningapp/models/" + model_name
-    # dl_model = AutoModelForSeq2SeqLM.from_pretrained(save_directory)
-    # tokenizer = AutoTokenizer.from_pretrained(save_directory)
+    save_directory = "deeplearningapp/models_all/" + model_name
     pipe = pipeline(task_dic[task], model=save_directory)
     if task == "option1":
         return pipe(input1)[0]['label']
@@ -156,10 +139,19 @@ def load_model(model_name, task, content, input1):
     elif task == 'option5':
         return pipe(question=input1, context=content)['answer']
     else:
-        # return pipe(input1)
         return pipe(input1)[0]['token_str'] + " -> " + pipe(input1)[0]['sequence']
-    # pipeline = TextClassificationPipeline(model=dl_model, tokenizer=tokenizer)
-    # return pipeline(input1)[0]['label']
+
+
+def create_container(model_name, task, content, input1):
+    client = docker.from_env()
+    image = model_name + ":1.0"
+    cmd = f"python -c 'import load; print(load.load_model(\"{model_name}\", \"{task}\", \"{content}\", \"{input1}\"))'"
+    # container = client.containers.run(image, detach=True, name="load1234", command=cmd)
+    container = client.containers.run(image, detach=True, command=cmd)
+    container.wait()
+    result = container.logs().decode('utf-8').strip()
+    container.remove()
+    return result
 
 
 def model_detail(request):
@@ -172,92 +164,12 @@ def model_detail(request):
         task = model.tag
         if task == "option5":
             content = request.POST.get("content")
-            future = executor.submit(load_model, model.model_name, task, content, input1)
+            future = executor.submit(create_container, model.model_name, task, content, input1)
         else:
             # 在线程池中异步运行预测函数
-            future = executor.submit(load_model, model.model_name, task, None, input1)
-        # print(executor._work_queue.empty())
-        # a = executor._work_queue.qsize()
-        # print(a)
+            future = executor.submit(create_container, model.model_name, task, None, input1)
         # 你可以获取任务的结果（这会阻塞线程，直到结果可用）
         ctx['outcome'] = future.result()
-
-        # print(1)
-        # print(time.time())
-        # task_id = async_task(
-        #     call_model, model.model_data, model.tokenizer_data, input1,
-        #     task_name='Model Prediction',
-        #     hook=task_finish,
-        # )
-        # print(2)
-        # print(time.time())
-        # # task_result = result(task_id)
-        # task_result = None
-        # i = 1
-        # while task_result is None:
-        #     print(i)
-        #     i += 1
-        #     task_result = result(task_id)
-        # print(3)
-        # print(time.time())
-        # ctx['outcome'] = task_result
-
-        #     with open("models/DecisionTree.sav", "rb") as f:
-        #         model = pickle.load(f)
-        #     input1 = input1.split(',')
-        #     input1 = pd.DataFrame([input1], columns=['LIMIT_BAL', 'SEX', 'EDUCATION', 'MARRIAGE', 'AGE', 'PAY_0', 'PAY_2',
-        #                                              'PAY_3', 'PAY_4', 'PAY_2', 'PAY_13', 'PAY_123', 'PAY1', 'PAY_22',
-        #                                              'PAY_31', 'PAY_43', 'PAY_2213', 'PAY_132', 'PAY_1235', 'PAY11',
-        #                                              'PAY_22A', 'PAY_43Q', 'PAY_2213W'
-        #                                              ])
-        #     output = model.predict(input1)
-        #     ctx['outcome'] = output
-
-        # 从hugging face直接调用
-        # import requests
-        # input1 = request.POST.get("input")
-        #
-        # API_URL = "https://api-inference.huggingface.co/models/martin-ha/toxic-comment-model"
-        # headers = {"Authorization": "Bearer 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"}
-        # def query(payload):
-        #     response = requests.post(API_URL, headers=headers, json=payload)
-        #     return response.json()
-        # output = query({
-        #     "inputs": input1,
-        # })
-        # ctx['outcome1'] = output[0][0]['label']
-        # ctx['pro1'] = output[0][0]['score']
-        # ctx['outcome2'] = output[0][1]['label']
-        # ctx['pro2'] = output[0][1]['score']
-
-        # 本地调用配置文件
-        # model_path = "ynie/roberta-large-snli_mnli_fever_anli_R1_R2_R3-nli"
-        # tokenizer = AutoTokenizer.from_pretrained(model_path)
-        # model = AutoModelForSequenceClassification.from_pretrained(model_path)
-        # pipeline = TextClassificationPipeline(model=model, tokenizer=tokenizer)
-
-        # 本地调用配置文件用与toxic
-        # save_directory = "deeplearningapp/models/" + model.model_name  # 要保存模型的目录路径
-        # # model.save_pretrained(save_directory)  # 将模型保存到指定目录
-        # # tokenizer.save_pretrained(save_directory)
-        # dl_model = AutoModelForSequenceClassification.from_pretrained(save_directory)
-        # tokenizer = AutoTokenizer.from_pretrained(save_directory)
-        # pipeline = TextClassificationPipeline(model=dl_model, tokenizer=tokenizer)
-
-        # task = schedule('.call_model', model.model_data, model.tokenizer_data, input1)
-        # result = task.wait()  # 等待任务完成并获取结果
-        # ctx['outcome'] = result
-
-        # task = call_model.delay(model.model_data, model.tokenizer_data, input1)
-        # ctx['outcome'] = task.get()
-
-        # serialized_model = model.model_data
-        # dl_model = pickle.loads(serialized_model)
-        # serialized_token = model.tokenizer_data
-        # tokenizer = pickle.loads(serialized_token)
-        # pipeline = TextClassificationPipeline(model=dl_model, tokenizer=tokenizer)
-        # ctx['outcome'] = pipeline(input1)[0]['label']
-
         ctx['input'] = input1
         ctx['content'] = content
     return render(request, 'model-detail.html', context={"model": model, "ctx": ctx})
@@ -289,6 +201,33 @@ def modify_profile(request):
     return HttpResponse(0)
 
 
+def create_dockerfile(model, torch_ver, transformers_ver):
+    dockerfile_content = f"""
+    FROM python:3.9
+
+    RUN pip install torch=={torch_ver} transformers=={transformers_ver}
+    
+    WORKDIR /app
+
+    ADD deeplearningapp/load.py /app
+    ADD deeplearningapp/models/{model} /app/deeplearningapp/models/{model}
+    
+    EXPOSE 8000
+    CMD ["python", "load.py"]
+    """
+    with open("dockerfile", "w") as f:
+        f.write(dockerfile_content)
+
+
+def build_docker_image(model_name):
+    current_dir = settings.BASE_DIR
+    dockerfile_path = os.path.join(current_dir, "")
+    client = docker.from_env()
+    image_name = model_name
+    image_tag = "1.0"
+    client.images.build(path=dockerfile_path, tag=f"{image_name}:{image_tag}")
+
+
 def upload_model(request):
     if request.method == 'POST':
         user = User.objects.get(uid=request.session['uid'])
@@ -310,16 +249,13 @@ def upload_model(request):
                           model_name=model_name, uid=user, input_des=input_des, output_des=output_des, task_des=task_des)
         new_model.save()
         parent_model = request.POST.get('tokenizer')
-        print(parent_model)
         if parent_model != "":
             tokenizer = AutoTokenizer.from_pretrained(parent_model)
             tokenizer.save_pretrained('deeplearningapp/models/' + model_name)
         for file in files:
-            fs = FileSystemStorage(location='deeplearningapp/models/'+model_name)
+            fs = FileSystemStorage(location='deeplearningapp/models/' + model_name)
             fs.save(file.name, file)
+        create_dockerfile(model_name, "1.9.0", "4.17.0")
+        build_docker_image(model_name)
+        # return render(request, 'index.html')
         return HttpResponse(1)
-        # return render(request, 'profile.html')
-
-
-def test(request):
-    return render(request, 'work.html')

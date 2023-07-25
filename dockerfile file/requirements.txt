@@ -1,0 +1,8 @@
+pickleshare==0.7.5
+Django==4.2.1
+django-picklefield==3.1
+transformers==4.18.0
+django-q==1.3.9
+torch==2.0.1
+pytorch-lamb==1.0.0
+werkzeug==2.3.6
