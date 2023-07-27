@@ -1,0 +1,11 @@
+FROM python:3.9
+
+RUN pip install torch==1.9.0 transformers==4.18.0
+
+WORKDIR /app
+
+ADD deeplearningapp/load.py /app
+ADD deeplearningapp/models /app/deeplearningapp/models
+
+EXPOSE 8000
+CMD ["python", "load.py"]

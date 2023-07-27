@@ -17,6 +17,7 @@ from . import load
 import docker
 import os
 from django.conf import settings
+import subprocess
 
 
 # Create your views here.
@@ -123,7 +124,7 @@ executor = ThreadPoolExecutor(max_workers=50)
 
 
 def load_model(model_name, task, content, input1):
-    task_dic = {"option1": "text-classification", "option2": "translation",
+    task_dic = {"option1": "text-classification", "option2": "translation_en_to_de",
                 "option3": "text-generation", "option4": "summarization",
                 "option5": "question-answering", "option6": "fill-mask"}
     save_directory = "deeplearningapp/models_all/" + model_name
@@ -143,15 +144,32 @@ def load_model(model_name, task, content, input1):
 
 
 def create_container(model_name, task, content, input1):
-    client = docker.from_env()
+    # client = docker.from_env()
     image = model_name + ":1.0"
-    cmd = f"python -c 'import load; print(load.load_model(\"{model_name}\", \"{task}\", \"{content}\", \"{input1}\"))'"
-    # container = client.containers.run(image, detach=True, name="load1234", command=cmd)
-    container = client.containers.run(image, detach=True, command=cmd)
-    container.wait()
-    result = container.logs().decode('utf-8').strip()
-    container.remove()
-    return result
+    environment = {
+        "MODEL_NAME": model_name,
+        "TASK": task,
+        "CONTENT": content,
+        "INPUT1": input1
+    }
+    cmd = "python -c 'import os; import load; " \
+          "result = load.load_model(os.environ[\"MODEL_NAME\"], os.environ[\"TASK\"], " \
+          "os.environ[\"CONTENT\"], os.environ[\"INPUT1\"]); print(result)'"
+
+    # container = client.containers.run(image, detach=True, command=cmd, environment=environment)
+    # container.wait()
+    # result = container.logs().decode('utf-8').strip()
+    # container.remove()
+
+    docker_run_cmd = ["docker", "run", "--rm"]
+    for key, value in environment.items():
+        docker_run_cmd.extend(["-e", f"{key}={value}"])
+    docker_run_cmd.extend([image, "bash", "-c", cmd])
+    exec_result = subprocess.run(docker_run_cmd, stdout=subprocess.PIPE,
+                                 stderr=subprocess.PIPE, text=True)
+    output = exec_result.stdout.strip()
+    print(exec_result)
+    return output
 
 
 def model_detail(request):
@@ -160,14 +178,14 @@ def model_detail(request):
     ctx = {'tag': model.tag}
     if request.POST:
         input1 = request.POST.get("input")
-        content = None
+        content = "a content"
         task = model.tag
         if task == "option5":
             content = request.POST.get("content")
-            future = executor.submit(create_container, model.model_name, task, content, input1)
+            future = executor.submit(load_model, model.model_name, task, content, input1)
         else:
             # 在线程池中异步运行预测函数
-            future = executor.submit(create_container, model.model_name, task, None, input1)
+            future = executor.submit(load_model, model.model_name, task, content, input1)
         # 你可以获取任务的结果（这会阻塞线程，直到结果可用）
         ctx['outcome'] = future.result()
         ctx['input'] = input1
@@ -255,7 +273,9 @@ def upload_model(request):
         for file in files:
             fs = FileSystemStorage(location='deeplearningapp/models/' + model_name)
             fs.save(file.name, file)
-        create_dockerfile(model_name, "1.9.0", "4.17.0")
+        pytorch_version = request.POST.get('pytorch')
+        transformer_version = request.POST.get('transformers')
+        create_dockerfile(model_name, pytorch_version, transformer_version)
         build_docker_image(model_name)
         # return render(request, 'index.html')
         return HttpResponse(1)
