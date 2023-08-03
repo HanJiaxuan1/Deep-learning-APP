@@ -17,8 +17,14 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from . import views, upload_model
+# from django.conf.static import serve
+from django.views.static import serve
+from django.conf import settings
+from django.urls import re_path
 
 urlpatterns = [
+    re_path(r'^static/(?P<path>.*)$', serve, {'document_root': settings.STATIC_ROOT}), # 用于处理static里的文件
+
     path('', views.home, name='index'),
     path('admin/', admin.site.urls),
     path('hello/', views.hello),

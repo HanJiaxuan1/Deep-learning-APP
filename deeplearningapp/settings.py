@@ -23,10 +23,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-$xvw2i)i2#%&$n!4tfgyw5c7#_pln(mh)$(v6ls%)2y)7&&#=m'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# DEBUG = True
+#
+# ALLOWED_HOSTS = []
 
-ALLOWED_HOSTS = []
+DEBUG = False
 
+ALLOWED_HOSTS = ['127.0.0.1','localhost','112.124.59.185','*']
 
 # Application definition
 
@@ -132,9 +135,12 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = '/static/'  # 别名
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "statics"),
-]
+# STATICFILES_DIRS = [
+#     os.path.join(BASE_DIR, "statics"),
+# ]
+
+STATIC_ROOT = os.path.join(BASE_DIR, "statics") #用于处理静态文件
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field

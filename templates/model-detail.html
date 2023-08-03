@@ -88,6 +88,71 @@
             </div>
         </section>
         <!-- blog-details-area-end -->
+  <!-- blog-details-area-end -->
+            <!-- blog-details-area -->
+            <section class="blog-details-area pb-150">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="blog-details-wrap">
+                                <div class="blog-details-content">
+                                    <span class="date">{{ model.upload_date }}</span>
+                                    <h2 class="title">Model Name: {{ model.model_name }}</h2>
+                                    <p class="info-one">{{ model.background }}</p>
+                                    <p><br></p>
+                                    <span class="list-title">Here are some requirements to test this model:</span>
+                                    <ul class="list-wrap">
+                                        <li><i class="far fa-check" id="anchor"></i>Task: {{ model.task_des }}</li>
+                                        <li><i class="far fa-check"></i>Input: {{ model.input_des }}</li>
+                                        <li><i class="far fa-check"></i>Output: {{ model.output_des }}</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="blog-input-wrap">
+                                <h3 class="comment-reply-title">Please upload the input data</h3>
+                                <form class="comment-form" action="/model-detail/?param={{ model.model_id }}#anchor" method="post">
+                                    {% csrf_token %}
+                                    {% if ctx.tag == 'option5' %}
+                                        <h3 class="comment-reply-title" style="font-size: 12px;">Please upload the context</h3>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-grp">
+                                                    <input type="text" id="content" name="content" value="{{ ctx.content }}">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <h3 class="comment-reply-title" style="font-size: 12px;">Please upload the question</h3>
+                                    {% endif %}
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-grp">
+                                                <input type="text" id="input" name="input" value="{{ ctx.input }}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="btn">Submit the input</button>
+                                </form>
+                                <p><br></p>
+                            </div>
+                            <div class="outcome-wrap">
+                                <h2 class="title">Model outcome</h2>
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="blog-grid-item">
+                                            <div class="blog-grid-content">
+                                                <span class="text">Here is the result...</span>
+                                                <h2 class="title">The predicted outcome of model is</h2>
+                                                <p>{{ ctx.outcome }}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- blog-details-area-end -->
 
     </main>
     <!-- main-area-end -->
