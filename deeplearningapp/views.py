@@ -18,6 +18,7 @@ import docker
 import os
 from django.conf import settings
 import subprocess
+# 配对样本t检验
 
 
 # Create your views here.
@@ -182,10 +183,10 @@ def model_detail(request):
         task = model.tag
         if task == "option5":
             content = request.POST.get("content")
-            future = executor.submit(load_model, model.model_name, task, content, input1)
+            future = executor.submit(create_container, model.model_name, task, content, input1)
         else:
             # 在线程池中异步运行预测函数
-            future = executor.submit(load_model, model.model_name, task, content, input1)
+            future = executor.submit(create_container, model.model_name, task, content, input1)
         # 你可以获取任务的结果（这会阻塞线程，直到结果可用）
         ctx['outcome'] = future.result()
         ctx['input'] = input1

@@ -40,6 +40,64 @@
                                 </ul>
                             </div>
                         </div>
+                        <h3>API for fast prototyping is available</h3>
+                        <button type="submit" class="btn" id="showCodeBtn">Inference API</button>
+                        <br>
+                        <br>
+                        {% if ctx.tag == 'option5' %}
+                            <div id="codeBox" style="display: none;">
+                                <textarea readonly>
+
+
+                                import requests
+                                from bs4 import BeautifulSoup
+
+                                input_data = {"input": "How many apples do we have",  # change your question here
+                                              "content": "We have five apples"}  # change your content here
+
+                                session = requests.Session()
+                                API_URL = "http://127.0.0.1:8000/model-detail/?param=33"
+                                response = session.get(API_URL)
+                                csrf_token = response.cookies.get('csrftoken', '')
+                                payload = {'csrfmiddlewaretoken': csrf_token, **input_data}
+                                response = session.post(API_URL, data=payload)
+                                if response.status_code == 200:
+                                    print("请求成功！")
+                                    soup = BeautifulSoup(response.text, 'lxml')
+                                    result = soup.select_one('.outcome-wrap .blog-grid-content p').text.strip()
+                                    print(result)
+                                else:
+                                    print(f"请求失败，状态码：{response.status_code}")
+                                </textarea>
+                            </div>
+                        {% endif %}
+                        {% if ctx.tag != 'option5' %}
+                            <div id="codeBox" style="display: none;">
+                                <textarea readonly>
+
+
+                                import requests
+                                from bs4 import BeautifulSoup
+
+                                input_data = {"input": "I like you. I love you"}  # change your input here
+
+                                session = requests.Session()
+                                API_URL = "http://127.0.0.1:8000/model-detail/?param={{ model.model_id }}"
+                                response = session.get(API_URL)
+                                csrf_token = response.cookies.get('csrftoken', '')
+                                payload = {'csrfmiddlewaretoken': csrf_token, **input_data}
+                                response = session.post(API_URL, data=payload)
+                                if response.status_code == 200:
+                                    print("请求成功！")
+                                    soup = BeautifulSoup(response.text, 'lxml')
+                                    result = soup.select_one('.outcome-wrap .blog-grid-content p').text.strip()
+                                    print(result)
+                                else:
+                                    print(f"请求失败，状态码：{response.status_code}")
+                                </textarea>
+                            </div>
+                        {% endif %}
+                        <br>
                         <div class="blog-input-wrap">
                             <h3 class="comment-reply-title">Please upload the input data</h3>
                             <form class="comment-form" action="/model-detail/?param={{ model.model_id }}#anchor"
@@ -59,7 +117,7 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="form-grp">
-                                            {#                                            <input type="text" id="input" name="input" value="{{ ctx.input }}">#}
+                                            {#<input type="text" id="input" name="input" value="{{ ctx.input }}">#}
                                             <textarea id="input" name="input" rows="4" cols="50"
                                                       style="resize:vertical; overflow:auto; height:auto;">{{ ctx.input }}</textarea>
                                         </div>
@@ -88,74 +146,22 @@
             </div>
         </section>
         <!-- blog-details-area-end -->
-  <!-- blog-details-area-end -->
-            <!-- blog-details-area -->
-            <section class="blog-details-area pb-150">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div class="blog-details-wrap">
-                                <div class="blog-details-content">
-                                    <span class="date">{{ model.upload_date }}</span>
-                                    <h2 class="title">Model Name: {{ model.model_name }}</h2>
-                                    <p class="info-one">{{ model.background }}</p>
-                                    <p><br></p>
-                                    <span class="list-title">Here are some requirements to test this model:</span>
-                                    <ul class="list-wrap">
-                                        <li><i class="far fa-check" id="anchor"></i>Task: {{ model.task_des }}</li>
-                                        <li><i class="far fa-check"></i>Input: {{ model.input_des }}</li>
-                                        <li><i class="far fa-check"></i>Output: {{ model.output_des }}</li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="blog-input-wrap">
-                                <h3 class="comment-reply-title">Please upload the input data</h3>
-                                <form class="comment-form" action="/model-detail/?param={{ model.model_id }}#anchor" method="post">
-                                    {% csrf_token %}
-                                    {% if ctx.tag == 'option5' %}
-                                        <h3 class="comment-reply-title" style="font-size: 12px;">Please upload the context</h3>
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <div class="form-grp">
-                                                    <input type="text" id="content" name="content" value="{{ ctx.content }}">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <h3 class="comment-reply-title" style="font-size: 12px;">Please upload the question</h3>
-                                    {% endif %}
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="form-grp">
-                                                <input type="text" id="input" name="input" value="{{ ctx.input }}">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <button type="submit" class="btn">Submit the input</button>
-                                </form>
-                                <p><br></p>
-                            </div>
-                            <div class="outcome-wrap">
-                                <h2 class="title">Model outcome</h2>
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                        <div class="blog-grid-item">
-                                            <div class="blog-grid-content">
-                                                <span class="text">Here is the result...</span>
-                                                <h2 class="title">The predicted outcome of model is</h2>
-                                                <p>{{ ctx.outcome }}</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-            <!-- blog-details-area-end -->
-
     </main>
     <!-- main-area-end -->
+{% endblock %}
+{% block script %}
+    <script>
+        const showCodeBtn = document.getElementById('showCodeBtn');
+        const codeBox = document.getElementById('codeBox');
+        showCodeBtn.addEventListener('click', function() {
+            // 切换代码框的显示状态
+            if (codeBox.style.display === 'none') {
+                codeBox.style.display = 'block';
+            } else {
+                codeBox.style.display = 'none';
+            }
+        });
+    </script>
 {% endblock %}
 
 
