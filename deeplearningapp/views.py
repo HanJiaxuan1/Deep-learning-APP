@@ -18,6 +18,7 @@ import docker
 import os
 from django.conf import settings
 import subprocess
+# 配对样本t检验
 
 
 # Create your views here.

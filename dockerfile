@@ -6,7 +6,7 @@
     WORKDIR /app
 
     ADD deeplearningapp/load.py /app
-    ADD deeplearningapp/models/finbert_fls /app/deeplearningapp/models/finbert_fls
+    ADD deeplearningapp/models/test321 /app/deeplearningapp/models/test321
     
     EXPOSE 8000
     CMD ["python", "load.py"]
