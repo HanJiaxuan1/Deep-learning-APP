@@ -31,6 +31,10 @@ def home(request):
     return render(request, 'header.html')
 
 
+def document(request):
+    return render(request, 'document.html')
+
+
 def deployment(request):
     context = {}
     if 'uid' not in request.session.keys():
@@ -182,10 +186,10 @@ def model_detail(request):
         task = model.tag
         if task == "option5":
             content = request.POST.get("content")
-            future = executor.submit(load_model, model.model_name, task, content, input1)
+            future = executor.submit(create_container, model.model_name, task, content, input1)
         else:
             # 在线程池中异步运行预测函数
-            future = executor.submit(load_model, model.model_name, task, content, input1)
+            future = executor.submit(create_container, model.model_name, task, content, input1)
         # 你可以获取任务的结果（这会阻塞线程，直到结果可用）
         ctx['outcome'] = future.result()
         ctx['input'] = input1
@@ -261,7 +265,8 @@ def upload_model(request):
         # 检查 model_name 是否已经存在
         if Model.objects.filter(model_name=model_name).exists():
             return HttpResponse(0)
-
+        else:
+            return HttpResponse(2)
         task_des = task_dic[task]
         new_model = Model(tag=task, upload_date=date.today(), background=background,
                           model_name=model_name, uid=user, input_des=input_des, output_des=output_des, task_des=task_des)

@@ -1,0 +1,176 @@
+{% extends "base.html" %}
+
+{% block title %} Sub.DL - Smart • Use • Deployment {% endblock %}
+
+{% block body %}
+
+    <!-- main-area -->
+    <main class="main-content fix">
+        <div class="noise-bg" data-background="/static/img/bg/noise_bg.png"></div>
+        <div class="main-shape" data-background="/static/img/images/main_shape.png"></div>
+
+
+        <!-- use-cases-area -->
+        <section class="banner-area">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-5">
+                        <div class="use-cases-content">
+                            <div class="section-title mb-25">
+                                <h2 class="title title-animation">Sud.DL Does it <span>faster</span> & better.</h2>
+                            </div>
+                            <p>5 steps to deploy your own model easily.</p>
+                        </div>
+                    </div>
+                    <div class="col-lg-7">
+                        <div class="use-cases-nav-wrap">
+                            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link active" id="website-tab" data-bs-toggle="tab"
+                                            data-bs-target="#website-tab-pane" type="button" role="tab"
+                                            aria-controls="website-tab-pane" aria-selected="true">Step 1
+                                    </button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link" id="social-tab" data-bs-toggle="tab"
+                                            data-bs-target="#social-tab-pane" type="button" role="tab"
+                                            aria-controls="social-tab-pane" aria-selected="false">Step 2
+                                    </button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link" id="email-tab" data-bs-toggle="tab"
+                                            data-bs-target="#email-tab-pane" type="button" role="tab"
+                                            aria-controls="email-tab-pane" aria-selected="false">Step 3
+                                    </button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link" id="code-tab" data-bs-toggle="tab"
+                                            data-bs-target="#code-tab-pane" type="button" role="tab"
+                                            aria-controls="code-tab-pane" aria-selected="false">Step 4
+                                    </button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link" id="art-tab" data-bs-toggle="tab"
+                                            data-bs-target="#art-tab-pane" type="button" role="tab"
+                                            aria-controls="art-tab-pane" aria-selected="false">Step 5
+                                    </button>
+                                </li>
+                            </ul>
+                            <div class="tab-content" id="myTabContent">
+                                <div class="tab-pane fade show active" id="website-tab-pane" role="tabpanel"
+                                     aria-labelledby="website-tab" tabindex="0">
+                                    <div class="cases-details-wrap">
+                                        <div class="cases-details-img">
+                                            <img src="/static/img/images/1.jpeg" alt="">
+                                        </div>
+                                        <div class="cases-details-content">
+                                            <p>The sud.DL deep learning deployment website supports 6 types of NLP deep
+                                                learning models, including Text Classification, Translation, Text
+                                                Generation, Summarization, Question Answering, and Fill Mask. When you
+                                                want to deploy your deep learning model, please select the type of your
+                                                model first, which will facilitate sud.DL to match the appropriate
+                                                pipeline on the backend to process your model.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="social-tab-pane" role="tabpanel"
+                                     aria-labelledby="social-tab" tabindex="0">
+                                    <div class="cases-details-wrap">
+                                        <div class="cases-details-img">
+                                            <img src="/static/img/images/2.jpeg" alt="">
+                                        </div>
+
+                                        <div class="cases-details-content">
+                                            <p>
+                                                After selecting the type of model, you also need to fill in some text
+                                                descriptions related to the model to ensure that users understand the
+                                                functionality, limitations, potential deviations, and ethical
+                                                considerations of your model.<br>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <p>Model Name: Give your model a descriptive name so that it can be
+                                        recognized by you or users. Please note that the model name must be
+                                        lowercase and have no spaces<br>
+                                        Background: This section provides a detailed description of the source,
+                                        purpose, and fine-tuning of the model based on which pre trained
+                                        model.<br>
+                                        Model Input: Provide a detailed description of the input formats and
+                                        types required for the model, so that users can understand how to
+                                        interact with the model.<br>
+                                        Expected output: Clearly describe the output of the model, including
+                                        output type, format, etc.</p>
+                                </div>
+                                <div class="tab-pane fade" id="email-tab-pane" role="tabpanel"
+                                     aria-labelledby="email-tab" tabindex="0">
+                                    <div class="cases-details-wrap">
+                                        <div class="cases-details-img">
+                                            <img src="/static/img/images/3.jpeg" alt="">
+                                        </div>
+                                        <div class="cases-details-content">
+                                            <p>We offer two options for uploading models. The first option is to support
+                                                you in uploading all files related to your model.<br>
+                                                At the same time, you need to provide specific version information for
+                                                training the model, including PyTorch version and Transformers version.
+                                                This will help Sud.DL create your unique Docker environment for your
+                                                single room, ensuring the safe operation of your model.</p>
+                                        </div>
+                                    </div>
+                                    <p>
+                                        Usually, a complete model file will include the following five types of
+                                        files:<br>
+                                        Config.json<br>
+                                        Pytorch model.bin<br>
+                                        Tokenizer.json<br>
+                                        Tokenizer_ Config.json<br>
+                                        Vocab.txt
+                                    </p>
+                                </div>
+                                <div class="tab-pane fade" id="code-tab-pane" role="tabpanel" aria-labelledby="code-tab"
+                                     tabindex="0">
+                                    <div class="cases-details-wrap">
+                                        <div class="cases-details-img">
+                                            <img src="/static/img/images/4.jpeg" alt="">
+                                        </div>
+                                        <div class="cases-details-content">
+                                            <p>
+                                                We offer two options for uploading models. The second option is to
+                                                support you to only upload your adjusted model files, that is, upload
+                                                pytorch separately_ Model. bin file.<br>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <p>At the same time, you need to provide the model of the parent model of
+                                        this model, which is the model from which you fine-tuned your model. And
+                                        it is still necessary to provide specific version information for
+                                        training the model, including PyTorch version and Transformers version.
+                                        This will help Sud.DL create your unique Docker environment for your
+                                        single room, ensuring the safe operation of your model.</p>
+                                </div>
+                                <div class="tab-pane fade" id="art-tab-pane" role="tabpanel" aria-labelledby="art-tab"
+                                     tabindex="0">
+                                    <div class="cases-details-wrap">
+                                        <div class="cases-details-img">
+                                            <img src="/static/img/images/5.jpeg" alt="">
+                                        </div>
+                                        <div class="cases-details-content">
+                                            <p>Now that everything has been uploaded, you can easily deploy your deep
+                                                learning model by clicking the button! This may take 5-10 minutes. You
+                                                can browse other content first, and we will prompt you after the
+                                                deployment is completed. You will be able to see the model you uploaded
+                                                on your personal page or using the model page.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- use-cases-area-end -->
+
+    </main>
+    <!-- main-area-end -->
+
+{% endblock %}

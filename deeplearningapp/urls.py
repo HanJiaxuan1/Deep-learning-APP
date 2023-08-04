@@ -29,6 +29,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('hello/', views.hello),
     path('home/', views.home),
+    path('document/', views.document),
     path('login/', views.login, name='login'),
     path('RegisterCheck/', views.RegisterCheck, name='RegisterCheck'),
     path('LoginCheck/', views.LoginCheck, name='LoginCheck'),
