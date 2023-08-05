@@ -266,8 +266,6 @@ def upload_model(request):
         # 检查 model_name 是否已经存在
         if Model.objects.filter(model_name=model_name).exists():
             return HttpResponse(0)
-        else:
-            return HttpResponse(2)
         task_des = task_dic[task]
         new_model = Model(tag=task, upload_date=date.today(), background=background,
                           model_name=model_name, uid=user, input_des=input_des, output_des=output_des, task_des=task_des)
@@ -279,6 +277,7 @@ def upload_model(request):
         for file in files:
             fs = FileSystemStorage(location='deeplearningapp/models/' + model_name)
             fs.save(file.name, file)
+        print("done")
         pytorch_version = request.POST.get('pytorch')
         transformer_version = request.POST.get('transformers')
         create_dockerfile(model_name, pytorch_version, transformer_version)

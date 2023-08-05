@@ -49,7 +49,8 @@
                                 <div class="work-thumb">
                                     {% csrf_token %}
                                     <h3 class="comment-reply-title" style="font-size: 18px;">Model Name</h3>
-                                    <p>Give your model a unique name! The model name must be lowercase and have no spaces</p>
+                                    <p>Give your model a unique name! The model name must be lowercase and have no
+                                        spaces</p>
                                     <input type="text" name="name">
                                     <p><br></p>
                                     <h3 class="comment-reply-title" style="font-size: 18px;">Background</h3>
@@ -99,16 +100,19 @@
                                                  role="tabpanel" aria-labelledby="all-files-tab" tabindex="0">
                                                 {% csrf_token %}
                                                 <h3 class="comment-reply-title"
-                                                    style="font-size: 18px; text-align: center;">Please upload all files</h3>
+                                                    style="font-size: 18px; text-align: center;">Please upload all
+                                                    files</h3>
                                                 <br>
                                                 <input type="file" name="files[]" multiple>
                                                 <br>
                                                 <br>
                                                 <br>
-                                                <p>Please tell us the version of PyTorch you used to train model (eg: 2.0.1)</p>
+                                                <p>Please tell us the version of PyTorch you used to train model (eg:
+                                                    2.0.1)</p>
                                                 <input type="text" name="pytorch">
                                                 <br>
-                                                <p>Please tell us the version of transformers you used to train model (eg: 4.18.0)</p>
+                                                <p>Please tell us the version of transformers you used to train model
+                                                    (eg: 4.18.0)</p>
                                                 <input type="text" name="transformers">
                                             </div>
 
@@ -128,10 +132,12 @@
                                                 <br>
                                                 <br>
                                                 <br>
-                                                <p>Please tell us the version of PyTorch you used to train model (eg: 2.0.1)</p>
+                                                <p>Please tell us the version of PyTorch you used to train model (eg:
+                                                    2.0.1)</p>
                                                 <input type="text" name="pytorch">
                                                 <br>
-                                                <p>Please tell us the version of transformers you used to train model (eg: 4.18.0)</p>
+                                                <p>Please tell us the version of transformers you used to train model
+                                                    (eg: 4.18.0)</p>
                                                 <input type="text" name="transformers">
                                             </div>
                                         </div>
@@ -148,7 +154,10 @@
                             <div class="work-item" data-aos="fade-up" data-aos-anchor-placement="top-bottom">
                                 <div class="work-thumb" style="text-align: center;">
                                     <p>Now just complete your model deployment!</p>
-                                    <button type="submit" class="btn">Deploy Now!</button>
+                                    <button type="submit" class="btn">Deploy Now!</button><br><br>
+                                    You have successfully uploaded your model file, which may take 5-10 minutes to
+                                    deploy. You can browse other content first and we will prompt you after the
+                                    deployment is completed.</p>
                                 </div>
                                 <div class="work-content">
                                     <span>Step 4</span>
@@ -210,7 +219,7 @@
                 return false;
             }
 
-             if (!pytorch || pytorch.trim() === '') {
+            if (!pytorch || pytorch.trim() === '') {
                 alert("Please provide a pytorch version for your model.");
                 return false;
             }
@@ -251,9 +260,6 @@
                     } else if (response == 1) {
                         $('#modal-warning').modal('show')
                         $('#msg_content').html("Saved successfully! You can check your upload models in profile page.");
-                    } else if (response == 2) {
-                        $('#modal-warning').modal('show')
-                        $('#msg_content').html("You have successfully uploaded your model file, which may take 5-10 minutes to deploy. You can browse other content first and we will prompt you after the deployment is completed.");
                     }
                 },
                 error: function () {
