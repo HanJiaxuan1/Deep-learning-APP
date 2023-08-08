@@ -154,7 +154,8 @@
                             <div class="work-item" data-aos="fade-up" data-aos-anchor-placement="top-bottom">
                                 <div class="work-thumb" style="text-align: center;">
                                     <p>Now just complete your model deployment!</p>
-                                    <button type="submit" class="btn">Deploy Now!</button><br><br>
+                                    <button type="submit" class="btn">Deploy Now!</button>
+                                    <br><br>
                                     You have successfully uploaded your model file, which may take 5-10 minutes to
                                     deploy. You can browse other content first and we will prompt you after the
                                     deployment is completed.</p>
@@ -247,6 +248,7 @@
             for (var i = 0; i < files.length; i++) {
                 data.append('files[]', files[i]);
             }
+            console.log("upload_model")
             $.ajax({
                 type: 'post',
                 url: '/upload_model/',
@@ -262,9 +264,10 @@
                         $('#msg_content').html("Saved successfully! You can check your upload models in profile page.");
                     }
                 },
-                error: function () {
-                    $('#modal-warning').modal('show')
-                    $('#msg_content').html("Connection error");
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.log("AJAX error: " + textStatus + ' : ' + errorThrown);
+                    $('#modal-warning').modal('show');
+                    $('#msg_content').html("Connection error: " + textStatus + ' : ' + errorThrown);
                 }
             });
         }

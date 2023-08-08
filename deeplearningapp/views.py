@@ -228,6 +228,7 @@ def create_dockerfile(model, torch_ver, transformers_ver):
     dockerfile_content = f"""
     FROM python:3.9
 
+    RUN pip config set global.index-url https://mirrors.aliyun.com/pypi/simple/
     RUN pip install torch=={torch_ver} transformers=={transformers_ver}
     
     WORKDIR /app
@@ -253,11 +254,13 @@ def build_docker_image(model_name):
 
 def upload_model(request):
     if request.method == 'POST':
+        print("调用")
         user = User.objects.get(uid=request.session['uid'])
         task_dic = {"option1": "text-classification", "option2": "translation",
                     "option3": "text-generation", "option4": "summarization",
                     "option5": "question-answering", "option6": "fill-mask"}
         files = request.FILES.getlist('files[]')
+        print("1")
         model_name = request.POST.get('name')
         task = request.POST.get('option')
         background = request.POST.get('background')
@@ -270,10 +273,12 @@ def upload_model(request):
         new_model = Model(tag=task, upload_date=date.today(), background=background,
                           model_name=model_name, uid=user, input_des=input_des, output_des=output_des, task_des=task_des)
         new_model.save()
+        print("2")
         parent_model = request.POST.get('tokenizer')
         if parent_model != "":
             tokenizer = AutoTokenizer.from_pretrained(parent_model)
             tokenizer.save_pretrained('deeplearningapp/models/' + model_name)
+        print("3")
         for file in files:
             fs = FileSystemStorage(location='deeplearningapp/models/' + model_name)
             fs.save(file.name, file)
