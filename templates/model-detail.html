@@ -41,7 +41,12 @@
                             </div>
                         </div>
                         <h3>API for fast prototyping is available</h3>
-                        <button type="submit" class="btn" id="showCodeBtn">Inference API</button>
+                        <p>Just copy the code into your Python IDE and run them to quickly call the model and get the results, and please do not change the Authorization!</p>
+                        {% if user.is_authenticated %}
+                            <button type="submit" class="btn" id="showCodeBtn">Inference API</button>
+                        {% else %}
+                            <p>Please <a href="{% url 'login' %}">login</a> to use this function.</p>
+                        {% endif %}
                         <br>
                         <br>
                         {% if ctx.tag == 'option5' %}
@@ -56,18 +61,19 @@
                                               "content": "We have five apples"}  # change your content here
 
                                 session = requests.Session()
-                                API_URL = "http://127.0.0.1:8000/model-detail/?param=33"
+                                headers = {"Authorization": "{{ ctx.token }}"}
+                                API_URL = "http://127.0.0.1:8000/api-model-detail/?param={{ model.model_id }}"
                                 response = session.get(API_URL)
                                 csrf_token = response.cookies.get('csrftoken', '')
                                 payload = {'csrfmiddlewaretoken': csrf_token, **input_data}
-                                response = session.post(API_URL, data=payload)
+                                response = session.post(API_URL, headers=headers, data=payload)
                                 if response.status_code == 200:
-                                    print("请求成功！")
+                                    print("Request successful")
                                     soup = BeautifulSoup(response.text, 'lxml')
                                     result = soup.select_one('.outcome-wrap .blog-grid-content p').text.strip()
-                                    print(result)
+                                    print("Answer is " + result)
                                 else:
-                                    print(f"请求失败，状态码：{response.status_code}")
+                                    print("Request failed, please provide the correct authorization")
                                 </textarea>
                             </div>
                         {% endif %}
@@ -82,18 +88,19 @@
                                 input_data = {"input": "I like you. I love you"}  # change your input here
 
                                 session = requests.Session()
-                                API_URL = "http://127.0.0.1:8000/model-detail/?param={{ model.model_id }}"
+                                headers = {"Authorization": "{{ ctx.token }}"}
+                                API_URL = "http://127.0.0.1:8000/api-model-detail/?param={{ model.model_id }}"
                                 response = session.get(API_URL)
                                 csrf_token = response.cookies.get('csrftoken', '')
                                 payload = {'csrfmiddlewaretoken': csrf_token, **input_data}
-                                response = session.post(API_URL, data=payload)
+                                response = session.post(API_URL, headers=headers, data=payload)
                                 if response.status_code == 200:
-                                    print("请求成功！")
+                                    print("Request successful")
                                     soup = BeautifulSoup(response.text, 'lxml')
                                     result = soup.select_one('.outcome-wrap .blog-grid-content p').text.strip()
-                                    print(result)
+                                    print("Answer is " + result)
                                 else:
-                                    print(f"请求失败，状态码：{response.status_code}")
+                                    print("Request failed, please provide the correct authorization")
                                 </textarea>
                             </div>
                         {% endif %}
