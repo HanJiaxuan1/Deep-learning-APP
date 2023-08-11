@@ -6,7 +6,7 @@
     WORKDIR /app
 
     ADD deeplearningapp/load.py /app
-    ADD deeplearningapp/models/123 /app/deeplearningapp/models/123
+    ADD deeplearningapp/models/bert-base-multilingual-uncased-sentiment /app/deeplearningapp/models/bert-base-multilingual-uncased-sentiment
     
     EXPOSE 8000
     CMD ["python", "load.py"]

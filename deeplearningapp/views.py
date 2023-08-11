@@ -224,11 +224,11 @@ def modify_profile(request):
     return HttpResponse(0)
 
 
+# RUN pip config set global.index-url https://mirrors.aliyun.com/pypi/simple/
 def create_dockerfile(model, torch_ver, transformers_ver):
     dockerfile_content = f"""
     FROM python:3.9
 
-    RUN pip config set global.index-url https://mirrors.aliyun.com/pypi/simple/
     RUN pip install torch=={torch_ver} transformers=={transformers_ver}
     
     WORKDIR /app
