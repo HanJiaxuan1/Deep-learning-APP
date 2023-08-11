@@ -103,42 +103,40 @@
                                                     style="font-size: 18px; text-align: center;">Please upload all
                                                     files</h3>
                                                 <br>
-                                                <input type="file" name="files[]" multiple>
-                                                <br>
-                                                <br>
-                                                <br>
+                                                <input type="file" id="all-files-input" name="files[]" multiple>
+                                                {#                                                <input type="file" name="files[]" multiple>#}
+                                                <br><br><br>
                                                 <p>Please tell us the version of PyTorch you used to train model (eg:
                                                     2.0.1)</p>
-                                                <input type="text" name="pytorch">
+                                                <input type="text" name="pytorch" id="all_pytorch">
                                                 <br>
                                                 <p>Please tell us the version of transformers you used to train model
                                                     (eg: 4.18.0)</p>
-                                                <input type="text" name="transformers">
+                                                <input type="text" name="transformers" id="all_transformers">
                                             </div>
 
                                             <div class="tab-pane fade" id="model-file-pane" role="tabpanel"
                                                  aria-labelledby="model-file-tab" tabindex="0">
                                                 {% csrf_token %}
                                                 <p>Please tell us which model you fine-tuned your model from</p>
-                                                <input type="text" name="tokenizer">
-                                                <br>
-                                                <br>
-                                                <br>
+                                                <input type="text" name="tokenizer" id="tokenizer">
+                                                <br><br><br>
                                                 <h3 class="comment-reply-title"
                                                     style="font-size: 18px; text-align: center;">Please upload model
                                                     files</h3>
                                                 <br>
-                                                <input type="file" name="files[]" multiple>
+                                                {#                                                <input type="file" name="files[]" multiple>#}
+                                                <input type="file" id="model-files-input" name="files[]" multiple>
                                                 <br>
                                                 <br>
                                                 <br>
                                                 <p>Please tell us the version of PyTorch you used to train model (eg:
                                                     2.0.1)</p>
-                                                <input type="text" name="pytorch">
+                                                <input type="text" name="pytorch" id="one_pytorch">
                                                 <br>
                                                 <p>Please tell us the version of transformers you used to train model
                                                     (eg: 4.18.0)</p>
-                                                <input type="text" name="transformers">
+                                                <input type="text" name="transformers" id="one_transformers">
                                             </div>
                                         </div>
                                     </div>
@@ -178,6 +176,7 @@
 {% endblock %}
 {% block script %}
     <script>
+
         function upload() {
             let name = $('input[name="name"]').val();
             let background = $('input[name="background"]').val();
@@ -185,10 +184,24 @@
             let output_des = $('input[name="output_des"]').val();
             let csrfmiddlewaretoken = $('input[name=csrfmiddlewaretoken]').val();
             let option = $('input[name="option"]:checked').val();
-            let files = $('input[name="files[]"]')[0].files;
-            let tokenizer = $('input[name="tokenizer"]').val();
-            let pytorch = $('input[name="pytorch"]').val();
-            let transformers = $('input[name="transformers"]').val();
+            {#let files = $('input[name="files[]"]')[0].files;#}
+            let files, tokenizer, pytorch, transformers;
+            {#if ($('#all-files-input').length !=0 ) {#}
+            if ($('#all-files-input')[0].files.length > 0) {
+                console.log("all")
+                files = ($('#all-files-input')[0].files);
+                pytorch = $('#all_pytorch').val();
+                transformers = $('#all_transformers').val();
+            }
+            if ($('#model-files-input')[0].files.length > 0) {
+                {#if ($('#model-files-input').length !=0 ) {#}
+                console.log("one")
+                {#console.log($('#model-files-input')[0].files);#}
+                tokenizer = $('#tokenizer').val();
+                files = ($('#model-files-input')[0].files);
+                pytorch = $('#one_pytorch').val();
+                transformers = $('#one_transformers').val();
+            }
             // Checking for empty inputs
             if (!option) {
                 alert("Please select an NLP task for your model.");
@@ -212,6 +225,11 @@
 
             if (!output_des || output_des.trim() === '') {
                 alert("Please provide output descriptions for your model.");
+                return false;
+            }
+
+            if (files.length === 0) {
+                alert("Please upload files for your model.");
                 return false;
             }
 

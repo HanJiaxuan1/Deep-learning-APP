@@ -260,7 +260,7 @@ def upload_model(request):
                     "option3": "text-generation", "option4": "summarization",
                     "option5": "question-answering", "option6": "fill-mask"}
         files = request.FILES.getlist('files[]')
-        print("1")
+        print("获取")
         model_name = request.POST.get('name')
         task = request.POST.get('option')
         background = request.POST.get('background')
@@ -273,19 +273,19 @@ def upload_model(request):
         new_model = Model(tag=task, upload_date=date.today(), background=background,
                           model_name=model_name, uid=user, input_des=input_des, output_des=output_des, task_des=task_des)
         new_model.save()
-        print("2")
+        print("存入数据库")
         parent_model = request.POST.get('tokenizer')
         if parent_model != "":
             tokenizer = AutoTokenizer.from_pretrained(parent_model)
             tokenizer.save_pretrained('deeplearningapp/models/' + model_name)
-        print("3")
         for file in files:
             fs = FileSystemStorage(location='deeplearningapp/models/' + model_name)
             fs.save(file.name, file)
-        print("done")
+        print("存入本地")
         pytorch_version = request.POST.get('pytorch')
         transformer_version = request.POST.get('transformers')
         create_dockerfile(model_name, pytorch_version, transformer_version)
         build_docker_image(model_name)
+        print("docker")
         # return render(request, 'index.html')
         return HttpResponse(1)
