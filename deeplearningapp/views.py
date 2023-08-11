@@ -18,6 +18,10 @@ import docker
 import os
 from django.conf import settings
 import subprocess
+from django.contrib.sessions.models import Session
+from django.http import HttpResponseForbidden
+from django.contrib.auth import get_user_model
+from rest_framework.authtoken.models import Token
 # 配对样本t检验
 
 
@@ -55,6 +59,7 @@ def signup(request):
 def LoginCheck(request):
     email = request.POST.get('email')
     password = request.POST.get('password')
+    User = get_user_model()
     find_user = User.objects.filter(email=email).first()
     if find_user is None:
         return HttpResponse("0")
@@ -70,6 +75,7 @@ def RegisterCheck(request):
     email = request.POST.get('email')
     username = request.POST.get('username')
     password = request.POST.get('password')
+    User = get_user_model()
     find_user = User.objects.filter(email=email).first()
     if find_user is not None:
         return HttpResponse("0")
@@ -81,6 +87,8 @@ def RegisterCheck(request):
     new_user = User(email=email, username=username, password=password,
                     password_hash=password_hash)
     new_user.save()
+    token, created = Token.objects.get_or_create(user=new_user)
+    print(token)
     return HttpResponse("1")
 
 
@@ -178,9 +186,17 @@ def create_container(model_name, task, content, input1):
 
 
 def model_detail(request):
+    user = request.user
+    token_value = None
+    if user.is_authenticated:
+        try:
+            token = Token.objects.get(user=user)
+            token_value = token
+        except Token.DoesNotExist:
+            print('Do not find token')
     model_id = request.GET.get('param')
     model = Model.objects.get(model_id=model_id)
-    ctx = {'tag': model.tag}
+    ctx = {'tag': model.tag, 'token': token_value}
     if request.POST:
         input1 = request.POST.get("input")
         content = "a content"
@@ -198,7 +214,42 @@ def model_detail(request):
     return render(request, 'model-detail.html', context={"model": model, "ctx": ctx})
 
 
+def api_model_detail(request):
+    user = request.user
+    token_value = None
+    if user.is_authenticated:
+        try:
+            token = Token.objects.get(user=user)
+            token_value = token
+        except Token.DoesNotExist:
+            print('Do not find token')
+    model_id = request.GET.get('param')
+    model = Model.objects.get(model_id=model_id)
+    ctx = {'tag': model.tag, 'token': token_value}
+    if request.POST:
+        all_tokens = Token.objects.all()
+        token_values = [token.key for token in all_tokens]
+        authorization_header = request.META.get('HTTP_AUTHORIZATION', None)
+        if authorization_header not in token_values:
+            return HttpResponseForbidden("Access denied")
+        input1 = request.POST.get("input")
+        content = "a content"
+        task = model.tag
+        if task == "option5":
+            content = request.POST.get("content")
+            future = executor.submit(create_container, model.model_name, task, content, input1)
+        else:
+            # 在线程池中异步运行预测函数
+            future = executor.submit(create_container, model.model_name, task, content, input1)
+        # 你可以获取任务的结果（这会阻塞线程，直到结果可用）
+        ctx['outcome'] = future.result()
+        ctx['input'] = input1
+        ctx['content'] = content
+    return render(request, 'model-detail.html', context={"model": model, "ctx": ctx})
+
+
 def profile(request):
+    User = get_user_model()
     if 'uid' not in request.session.keys():
         return redirect(reverse('login'))
     user = User.objects.get(uid=request.session['uid'])
@@ -207,6 +258,7 @@ def profile(request):
 
 
 def modify_profile(request):
+    User = get_user_model()
     if 'uid' not in request.session.keys():
         return redirect(reverse('login'))
     user = User.objects.get(uid=request.session['uid'])
@@ -253,6 +305,7 @@ def build_docker_image(model_name):
 
 
 def upload_model(request):
+    User = get_user_model()
     if request.method == 'POST':
         print("调用")
         user = User.objects.get(uid=request.session['uid'])
