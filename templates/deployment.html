@@ -259,11 +259,7 @@
                         $('#msg_content').html("Saved successfully! You can check your upload models in profile page.");
                     }
                 },
-                error: function (jqXHR, textStatus, errorThrown) {
-                    console.log("AJAX error: " + textStatus + ' : ' + errorThrown);
-                    $('#modal-warning').modal('show');
-                    $('#msg_content').html("Connection error: " + textStatus + ' : ' + errorThrown);
-                }
+
             });
         }
     </script>
