@@ -184,23 +184,22 @@
             let output_des = $('input[name="output_des"]').val();
             let csrfmiddlewaretoken = $('input[name=csrfmiddlewaretoken]').val();
             let option = $('input[name="option"]:checked').val();
-            {#let files = $('input[name="files[]"]')[0].files;#}
             let files, tokenizer, pytorch, transformers;
-            {#if ($('#all-files-input').length !=0 ) {#}
             if ($('#all-files-input')[0].files.length > 0) {
                 console.log("all")
                 files = ($('#all-files-input')[0].files);
                 pytorch = $('#all_pytorch').val();
                 transformers = $('#all_transformers').val();
+                tokenizer = $('input[name="tokenizer"]').val();
+                console.log(tokenizer)
             }
             if ($('#model-files-input')[0].files.length > 0) {
-                {#if ($('#model-files-input').length !=0 ) {#}
                 console.log("one")
-                {#console.log($('#model-files-input')[0].files);#}
-                tokenizer = $('#tokenizer').val();
+                tokenizer = $('input[name="tokenizer"]').val();
                 files = ($('#model-files-input')[0].files);
                 pytorch = $('#one_pytorch').val();
                 transformers = $('#one_transformers').val();
+                console.log(files, pytorch, transformers,tokenizer)
             }
             // Checking for empty inputs
             if (!option) {
@@ -261,7 +260,7 @@
             for (var i = 0; i < files.length; i++) {
                 data.append('files[]', files[i]);
             }
-            console.log("upload_model")
+            console.log([...data.entries()]);
             $.ajax({
                 type: 'post',
                 url: '/upload_model/',
