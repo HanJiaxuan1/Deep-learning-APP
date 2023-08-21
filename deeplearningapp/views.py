@@ -22,7 +22,8 @@ from django.contrib.sessions.models import Session
 from django.http import HttpResponseForbidden
 from django.contrib.auth import get_user_model
 from rest_framework.authtoken.models import Token
-# 配对样本t检验
+import shutil
+import zipfile
 
 
 # Create your views here.
@@ -65,8 +66,8 @@ def LoginCheck(request):
         return HttpResponse("0")
     if find_user.verify_password(password) is False:
         return HttpResponse("2")
-    request.session["uid"] = find_user.uid
-    auth.login(request, find_user)
+    request.session["uid"] = find_user.uid   # 获取用户的uid
+    auth.login(request, find_user)  # Django自带的系统来身份验证系统来看是否登录了 因为继承了AbstractUser 所以可以使用自带的系统
     print("1")
     return HttpResponse("1")
 
@@ -332,13 +333,54 @@ def upload_model(request):
             tokenizer = AutoTokenizer.from_pretrained(parent_model)
             tokenizer.save_pretrained('deeplearningapp/models/' + model_name)
         for file in files:
+            print('test')
             fs = FileSystemStorage(location='deeplearningapp/models/' + model_name)
             fs.save(file.name, file)
         print("存入本地")
         pytorch_version = request.POST.get('pytorch')
+        print(pytorch_version)
         transformer_version = request.POST.get('transformers')
+        print(transformer_version)
         create_dockerfile(model_name, pytorch_version, transformer_version)
         build_docker_image(model_name)
         print("docker")
         # return render(request, 'index.html')
         return HttpResponse(1)
+
+
+def download_model(request):
+    all_tokens = Token.objects.all()
+    token_values = [token.key for token in all_tokens]
+    authorization_header = request.META.get('HTTP_AUTHORIZATION', None)
+    if authorization_header not in token_values:
+        return HttpResponseForbidden("Access denied")
+
+    model_id = request.GET.get('param')
+    model = Model.objects.get(model_id=model_id)
+    model_name = model.model_name
+    save_directory = 'deeplearningapp/models/' + model_name
+    temp_folder = 'temp_folder'
+    os.makedirs(temp_folder, exist_ok=True)
+
+    for item in os.listdir(save_directory):
+        item_path = os.path.join(save_directory, item)
+        if os.path.isfile(item_path):
+            shutil.copy2(item_path, temp_folder)
+
+    zip_filename = model_name + '.zip'
+    with zipfile.ZipFile(zip_filename, 'w', zipfile.ZIP_DEFLATED) as zipf:
+        for root, _, files in os.walk(temp_folder):
+            for file in files:
+                file_path = os.path.join(root, file)
+                arcname = os.path.relpath(file_path, temp_folder)
+                zipf.write(file_path, arcname)
+
+    with open(zip_filename, 'rb') as zip_file:
+        zip_content = zip_file.read()
+
+    response = HttpResponse(zip_content, content_type="application/zip")
+    response['Content-Disposition'] = f'attachment; filename="{zip_filename}"'
+    shutil.rmtree(temp_folder)
+    os.remove(zip_filename)
+    return response
+

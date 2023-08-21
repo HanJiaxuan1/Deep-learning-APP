@@ -26,7 +26,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col-lg-12">
-                        <form onsubmit="return upload()">
+                        <form onsubmit="showAlert(); return upload()">
                             <div class="work-item" data-aos="fade-up" data-aos-anchor-placement="top-bottom">
                                 <div class="work-thumb">
                                     {% csrf_token %}
@@ -176,6 +176,9 @@
 {% endblock %}
 {% block script %}
     <script>
+        function showAlert() {
+            alert("Start to deploy! Please wait for 10 minutes");
+        }
 
         function upload() {
             let name = $('input[name="name"]').val();
@@ -270,13 +273,12 @@
                 success: function (response) {
                     if (response == 0) {
                         $('#modal-warning').modal('show')
-                        $('#msg_content').html("Model name already exists! Please change your model name");
+                        $('#msg_content').html("Model name already exists! Please change your model name and try again");
                     } else if (response == 1) {
                         $('#modal-warning').modal('show')
                         $('#msg_content').html("Saved successfully! You can check your upload models in profile page.");
                     }
                 },
-
             });
         }
     </script>

@@ -62,7 +62,7 @@
 
                                 session = requests.Session()
                                 headers = {"Authorization": "{{ ctx.token }}"}
-                                API_URL = "http://127.0.0.1:8000/api-model-detail/?param={{ model.model_id }}"
+                                API_URL = "http://8.208.32.153:8000/api-model-detail/?param={{ model.model_id }}"
                                 response = session.get(API_URL)
                                 csrf_token = response.cookies.get('csrftoken', '')
                                 payload = {'csrfmiddlewaretoken': csrf_token, **input_data}
@@ -89,7 +89,7 @@
 
                                 session = requests.Session()
                                 headers = {"Authorization": "{{ ctx.token }}"}
-                                API_URL = "http://127.0.0.1:8000/api-model-detail/?param={{ model.model_id }}"
+                                API_URL = "http://8.208.32.153:8000/api-model-detail/?param={{ model.model_id }}"
                                 response = session.get(API_URL)
                                 csrf_token = response.cookies.get('csrftoken', '')
                                 payload = {'csrfmiddlewaretoken': csrf_token, **input_data}
@@ -148,6 +148,38 @@
                                 </div>
                             </div>
                         </div>
+                        <br>
+                        <h3>API to download this model</h3>
+                        <p>Just copy the code into your Python IDE and run them to quickly download all model files, and please do not change the Authorization!</p>
+                        {% if user.is_authenticated %}
+                            <button type="submit" class="btn" id="showDownloadBtn">Download Model</button>
+                        {% else %}
+                            <p>Please <a href="{% url 'login' %}">login</a> to use this function.</p>
+                        {% endif %}
+                        <br>
+                        <br>
+                        <div id="codeDownloadBox" style="display: none;">
+                            <textarea readonly>
+
+                                import requests
+                                import zipfile
+                                import io
+
+                                session = requests.Session()
+                                headers = {"Authorization": "{{ ctx.token }}"}
+                                API_URL = "http://127.0.0.1:8000/download_model/?param={{ model.model_id }}"
+                                response = session.get(API_URL, headers=headers)
+                                if response.status_code == 200:
+                                    print("Request successful")
+                                    zip_content = response.content
+                                    with zipfile.ZipFile(io.BytesIO(zip_content), 'r') as zip_ref:
+
+                                        zip_ref.extractall('Downloaded_Model')  # Please change this path to save the model
+
+                                else:
+                                    print("Request failed, please provide the correct authorization")
+                            </textarea>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -162,11 +194,20 @@
         const showCodeBtn = document.getElementById('showCodeBtn');
         const codeBox = document.getElementById('codeBox');
         showCodeBtn.addEventListener('click', function() {
-            // 切换代码框的显示状态
             if (codeBox.style.display === 'none') {
                 codeBox.style.display = 'block';
             } else {
                 codeBox.style.display = 'none';
+            }
+        });
+
+        const showDownloadBtn = document.getElementById('showDownloadBtn');
+        const codeDownloadBox = document.getElementById('codeDownloadBox');
+        showDownloadBtn.addEventListener('click', function() {
+            if (codeDownloadBox.style.display === 'none') {
+                codeDownloadBox.style.display = 'block';
+            } else {
+                codeDownloadBox.style.display = 'none';
             }
         });
     </script>
