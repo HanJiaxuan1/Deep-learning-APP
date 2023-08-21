@@ -167,7 +167,7 @@
 
                                 session = requests.Session()
                                 headers = {"Authorization": "{{ ctx.token }}"}
-                                API_URL = "http://127.0.0.1:8000/download_model/?param={{ model.model_id }}"
+                                API_URL = "http://8.208.32.153:8000/download_model/?param={{ model.model_id }}"
                                 response = session.get(API_URL, headers=headers)
                                 if response.status_code == 200:
                                     print("Request successful")
