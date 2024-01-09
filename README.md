@@ -27,10 +27,10 @@ transformers 4.18.0
 werkzeug 2.3.6  
 docker 6.1.3  
 
-Second step: Download the Docker Desktop and open it (Make sure you have a virtual environment in docker before you run the project to ensure that python interacts correctly with the Docker Desktop).
+Second step: Download the Docker Desktop and open it (Make sure you have an image in docker before you run the project to ensure that python interacts correctly with the Docker Desktop. So please run **docker build -t name:1.0 .** in your CMD to build the first image).
 
-Third step: In your Python environment, run the Sud.DL (type python manage.py runserver 0.0.0.0:8000 in CMD), and then you can open Sud.DL in your browser and upload your NLP model.
+Third step: In your Python environment, run the Sud.DL (type **python manage.py runserver 0.0.0.0:8000** in CMD), and then you can open Sud.DL in your browser and upload your NLP model.
 
-Welcome to optimize our project! :)
+Thanks for your interest. Welcome to optimize our project! :)
 
 
