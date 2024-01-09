@@ -29,7 +29,7 @@ docker 6.1.3
 
 Second step: Download the Docker Desktop and open it (Make sure you have an image in docker before you run the project to ensure that python interacts correctly with the Docker Desktop. So please run **docker build -t name:1.0 .** in your CMD to build the first image).
 
-Third step: In your Python environment, run the Sud.DL (type **python manage.py runserver 0.0.0.0:8000** in CMD), and then you can open Sud.DL in your browser and upload your NLP model.
+Third step: In your Python environment, run the Sud.DL (type **python manage.py runserver 0.0.0.0:8000** in CMD), and then you can open Sud.DL in your browser by typing **http://127.0.0.1:8000/** and upload your NLP model.
 
 Thanks for your interest. Welcome to optimize our project! :)
 
