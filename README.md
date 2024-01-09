@@ -29,7 +29,7 @@ docker 6.1.3
 
 Second step: Download the Docker Desktop and open it.<br>
 (Make sure you have an image in docker before you run the project to ensure that python interacts correctly with the Docker Desktop)<br>
-(Note: When you upload your models, Sud.DL requires you to have enough disk space to store the virtual environment, usually 10 GB per model, so make sure you have enough space to avoid bug)
+(Note: When you upload your models, Sud.DL requires you to have enough disk space to store the virtual environment, usually 10 GB per model but it is better to have more than 25 GB of space to store temporary files, so make sure you have enough space to avoid bug. Also, it is recommended to set disk image location of Docker Desktop to appropriate location by clicking Setting -> Resources)
 
 Third step: In your Python environment, run the Sud.DL (type **python manage.py runserver 0.0.0.0:8000** in CMD), and then you can open Sud.DL in your browser by typing **http://127.0.0.1:8000/** and upload your NLP model (It takes a lot of time).
 
