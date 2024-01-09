@@ -16,7 +16,7 @@ First step: Open this link (http://8.208.32.153:8000/signup/) to register your a
 
 Second step: On the Sud.DL, open the deployment functionality and follow the guidelines for model deployment (If you need detailed guidelines, you can click 'How To Deploy' functionality).
 
-Third step:  Find and test your model on the Use Models Page.<br>
+Third step:  Find and test your model on the Use Models Page.
 <br></br>
 
 ### As a developer, if you want to download this webapp and optimise it, please follow these steps
