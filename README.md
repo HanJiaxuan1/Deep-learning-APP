@@ -31,4 +31,6 @@ Second step: Download the Docker Desktop and open it (Make sure you have a virtu
 
 Third step: In your Python environment, run the Sud.DL (type python manage.py runserver 0.0.0.0:8000 in CMD), and then you can open Sud.DL in your browser and upload your NLP model.
 
+Welcome to optimize our project :)
+
 
