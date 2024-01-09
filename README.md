@@ -8,9 +8,9 @@ In this project, Python Django, PyTorch, Transformers, JavaScript, Docker, and A
 By setting up Sud.DL, against the prevalent no-code deep learning deployment solution, Hugging Face, undertook comparative experiments and surveys. Data-driven analysis was employed to discern the
 tangible advancements of Sud.DL over its counterpart. The results confirmed that SUD.DL has made significant strides in aesthetics, facilitating users to easily locate deployment-related functions and reducing the learning curve and comprehension difficulty associated with deployment tutorials. Although there’s room for further optimization in model deployment times and the complexity of the development process, Sud.DL achieved commendable outcomes in overall user satisfaction.
 
-### How to run the Sud.DL. It is very simple!!!
+### How to run the Sud.DL? It is very simple!!!
 First step: Open this link (http://8.208.32.153:8000/signup/) to register your account. eg: example@ucl.ac.uk.
 
-Second step: On the Sud.DL, open the deployment functionality and follow the guidelines for model deployment. (If you need detailed guidelines, you can click 'How To Deploy' functionality)
+Second step: On the Sud.DL, open the deployment functionality and follow the guidelines for model deployment (If you need detailed guidelines, you can click 'How To Deploy' functionality).
 
 Third step:  Find and test your model on the Use Models Page.
