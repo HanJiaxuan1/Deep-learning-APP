@@ -16,16 +16,16 @@ First step: Open this link (http://8.208.32.153:8000/signup/) to register your a
 
 Second step: On the Sud.DL, open the deployment functionality and follow the guidelines for model deployment (If you need detailed guidelines, you can click 'How To Deploy' functionality).
 
-Third step:  Find and test your model on the Use Models Page.
+Third step:  Find and test your model on the Use Models Page.  
 
 
 ### As a developer, if you want to download this webapp and optimise it, please follow these steps
 First step: Clone all code to your local environment and install relevant dependencies. Some important dependencies are mentioned below.
-Python 3.9
-Django 4.2.1
-transformers 4.18.0
-werkzeug 2.3.6
-docker 6.1.3
+Python 3.9  
+Django 4.2.1  
+transformers 4.18.0  
+werkzeug 2.3.6  
+docker 6.1.3  
 
 Second step: Download the Docker Desktop and open it (Make sure you have a virtual environment in docker before you run the project to ensure that python interacts correctly with the Docker Desktop).
 
